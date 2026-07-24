@@ -15,13 +15,13 @@ dependencies {
     minecraft "com.mojang:minecraft:1.21.11"
     mappings "net.fabricmc:yarn:1.21.11+build.6:v2"
 
-    modImplementation "net.fabricmc:fabric-loader:0.18.6"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.0+1.21.11"
+    modImplementation "net.fabricmc:fabric-loader:0.19.3"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.141.5+1.21.11"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
     testImplementation 'net.fabricmc:fabric-test-interfaces:0.16.0+1.21.11'
-    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.100.0+1.21.11'
+    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.141.5+1.21.11'
 }
 
 test {
