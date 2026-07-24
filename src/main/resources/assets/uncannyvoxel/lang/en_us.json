@@ -1,0 +1,21 @@
+{
+  "item.uncannyvoxel.desaturated_eye": "Desaturated Eye",
+  "item.uncannyvoxel.desaturated_eye.tooltip": "The eye sees what the mirror hides.",
+  "item.uncannyvoxel.desaturated_eye.tooltip2": "Drop on a Sulfur-Glass Mirror to open the way.",
+  "item.uncannyvoxel.lumen_scalpel": "Lumen Scalpel",
+  "item.uncannyvoxel.lumen_scalpel.tooltip1": "Cuts through the Substrate's black fog.",
+  "item.uncannyvoxel.lumen_scalpel.tooltip2": "Reveals invisible entities. Drains max health while held.",
+  "item.uncannyvoxel.lumen_scalpel.tooltip3": "Sleeping restores health... but may trigger Bed Paralysis.",
+  "item.uncannyvoxel.tether_stake": "Tether Stake",
+  "item.uncannyvoxel.tether_stake.tooltip1": "Creates a 5-block safe zone. Geometry cannot shift inside.",
+  "item.uncannyvoxel.tether_stake.tooltip2": "Leaving the radius causes violent uprooting.",
+  "block.uncannyvoxel.sulfur_glass_mirror": "Sulfur-Glass Mirror",
+  "block.uncannyvoxel.rusted_grate": "Rusted Grate",
+  "block.uncannyvoxel.compacted_hair": "Compacted Hair",
+  "block.uncannyvoxel.chest_mimic": "Chest Mimic",
+  "block.uncannyvoxel.tether_stake": "Tether Stake",
+  "block.uncannyvoxel.tether_stake.activated": "Tether Stake activated. Safe zone established.",
+  "block.uncannyvoxel.tether_stake.deactivated": "Tether Stake deactivated. Safe zone collapsed.",
+  "block.uncannyvoxel.tether_stake.occupied": "Another player is tethered to this stake.",
+  "container.uncannyvoxel.chest_mimic": "Chest Mimic"
+}

@@ -1,0 +1,14 @@
+{
+  "replace": false,
+  "values": [
+    "minecraft:tinted_glass",
+    {
+      "id": "minecraft:sulfur_cube",
+      "required": false
+    },
+    {
+      "id": "minecraft:sulfur_block",
+      "required": false
+    }
+  ]
+}

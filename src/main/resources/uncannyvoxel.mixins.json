@@ -1,0 +1,25 @@
+{
+  "required": true,
+  "package": "com.uncannyvoxel.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "mixins": [
+    "common.ServerWorldMixin",
+    "common.MobEntityMixin",
+    "common.LivingEntityMixin",
+    "common.ItemEntityMixin"
+  ],
+  "client": [
+    "client.VulkanLightmapDropMixin",
+    "client.VulkanChunkDrawMixin",
+    "client.FriendListScreenMixin",
+    "client.FriendEntryMixin",
+    "client.PlayerListHudMixin",
+    "client.WorldRendererMixin",
+    "client.GameRendererMixin",
+    "client.CameraMixin",
+    "client.HandledScreenMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

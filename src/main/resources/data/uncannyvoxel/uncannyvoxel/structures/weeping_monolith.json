@@ -1,0 +1,11 @@
+{
+  "height_range": [80, 120],
+  "base_width": 5,
+  "hum_intensity": 0.3,
+  "entity_attraction_radius": 100,
+  "entity_attraction_strength": 1.5,
+  "max_attracted_entities": 20,
+  "safe_zone_respect": true,
+  "pulse_interval_ticks": 400,
+  "particle_emission": true
+}

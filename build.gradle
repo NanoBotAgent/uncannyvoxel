@@ -1,0 +1,44 @@
+plugins {
+    id 'fabric-loom' version '1.7-SNAPSHOT'
+    id 'java'
+}
+
+version = project.mod_version
+group = project.maven_group
+
+repositories {
+    mavenCentral()
+    maven { url 'https://maven.fabricmc.net/' }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:26.2"
+    mappings "net.fabricmc:yarn:26.2+build.1:v2"
+
+    modImplementation "net.fabricmc:fabric-loader:0.16.0"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.0+26.2"
+
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
+    testImplementation 'org.mockito:mockito-core:5.11.0'
+    testImplementation 'net.fabricmc:fabric-test-interfaces:0.16.0+26.2'
+    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.100.0+26.2'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+loom {
+    // GameTest configuration
+    accessWidenerPath = file('src/main/resources/uncannyvoxel.accesswidener')
+}

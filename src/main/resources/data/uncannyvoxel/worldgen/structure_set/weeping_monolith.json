@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "uncannyvoxel:weeping_monolith",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 987654321,
+    "type": "minecraft:random_spread",
+    "spacing": 60,
+    "separation": 20
+  }
+}

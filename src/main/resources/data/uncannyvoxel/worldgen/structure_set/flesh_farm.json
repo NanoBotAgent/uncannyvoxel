@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "uncannyvoxel:flesh_farm",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "salt": 123456789,
+    "type": "minecraft:random_spread",
+    "spacing": 40,
+    "separation": 15
+  }
+}

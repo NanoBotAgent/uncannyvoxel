@@ -1,0 +1,25 @@
+# CI Docker image for Uncanny Voxel
+FROM eclipse-temurin:21-jdk
+
+WORKDIR /workspace
+
+# Install Python for validation scripts
+RUN apt-get update && apt-get install -y python3 python3-pip && rm -rf /var/lib/apt/lists/*
+
+# Copy gradle wrapper and build files
+COPY gradlew .
+COPY gradle gradle
+COPY build.gradle settings.gradle gradle.properties ./
+
+# Download dependencies
+RUN ./gradlew --version
+
+# Copy source
+COPY src src
+COPY ci ci
+
+# Make scripts executable
+RUN chmod +x gradlew ci/verify.sh
+
+# Run verification
+ENTRYPOINT ["./ci/verify.sh"]

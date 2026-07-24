@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "TG",
+    "GE"
+  ],
+  "key": {
+    "T": { "item": "minecraft:tinted_glass" },
+    "G": { "item": "minecraft:glass" },
+    "E": { "item": "minecraft:ender_eye" }
+  },
+  "result": {
+    "item": "uncannyvoxel:sulfur_glass_mirror",
+    "count": 1
+  }
+}

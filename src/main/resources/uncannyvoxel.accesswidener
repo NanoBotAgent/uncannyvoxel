@@ -1,0 +1,38 @@
+accesswidener "uncannyvoxel" v1 {
+    # Allow GameTest access to private fields
+    class net.minecraft.test.TestContext {
+        field method getWorld : Lnet/minecraft/server/world/ServerWorld;
+    }
+
+    # Allow portal controller to access private methods
+    class com.uncannyvoxel.portal.PortalController {
+        method tryActivate (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/server/network/ServerPlayerEntity;)V
+    }
+
+    # Allow SulfurGlassMirrorBlockEntity to be ticked
+    class com.uncannyvoxel.blockentity.SulfurGlassMirrorBlockEntity {
+        method tick (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lcom/uncannyvoxel/blockentity/SulfurGlassMirrorBlockEntity;)V
+    }
+
+    # Allow ChestMimicBlockEntity to be ticked
+    class com.uncannyvoxel.blockentity.ChestMimicBlockEntity {
+        method tick (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lcom/uncannyvoxel/blockentity/ChestMimicBlockEntity;)V
+        method onPlayerInteract (Lnet/minecraft/entity/player/PlayerEntity;)V
+    }
+
+    # Allow RustedGrateBlockEntity to be ticked
+    class com.uncannyvoxel.blockentity.RustedGrateBlockEntity {
+        method tick (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lcom/uncannyvoxel/blockentity/RustedGrateBlockEntity;)V
+    }
+
+    # Allow CompactedHairBlockEntity to be ticked
+    class com.uncannyvoxel.blockentity.CompactedHairBlockEntity {
+        method tick (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lcom/uncannyvoxel/blockentity/CompactedHairBlockEntity;)V
+    }
+
+    # Allow TetherStakeBlockEntity to be ticked
+    class com.uncannyvoxel.blockentity.TetherStakeBlockEntity {
+        method tick (Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lcom/uncannyvoxel/blockentity/TetherStakeBlockEntity;)V
+        method activate (Lnet/minecraft/entity/player/PlayerEntity;)V
+    }
+}

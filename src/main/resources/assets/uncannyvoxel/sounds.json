@@ -1,0 +1,52 @@
+{
+  "uncannyvoxel:wet_tearing": {
+    "sounds": ["uncannyvoxel:wet_tearing"],
+    "volume": 1.0,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:blink_trigger": {
+    "sounds": ["uncannyvoxel:blink_trigger"],
+    "volume": 1.0,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:infrasonic_drone": {
+    "sounds": ["uncannyvoxel:infrasonic_drone"],
+    "volume": 0.15,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:binaural_whisper": {
+    "sounds": ["uncannyvoxel:binaural_whisper"],
+    "volume": 0.2,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:chest_snap": {
+    "sounds": ["uncannyvoxel:chest_snap"],
+    "volume": 1.0,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:mirror_whisper": {
+    "sounds": ["uncannyvoxel:mirror_whisper"],
+    "volume": 0.5,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:sliding_skin": {
+    "sounds": ["uncannyvoxel:sliding_skin"],
+    "volume": 1.0,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:stutter_step": {
+    "sounds": ["uncannyvoxel:stutter_step"],
+    "volume": 1.0,
+    "pitch": 0.8
+  },
+  "uncannyvoxel:substrate_ambient": {
+    "sounds": ["uncannyvoxel:substrate_ambient"],
+    "volume": 0.3,
+    "pitch": 1.0
+  },
+  "uncannyvoxel:mimic_voice": {
+    "sounds": ["uncannyvoxel:mimic_voice"],
+    "volume": 1.0,
+    "pitch": 1.0
+  }
+}

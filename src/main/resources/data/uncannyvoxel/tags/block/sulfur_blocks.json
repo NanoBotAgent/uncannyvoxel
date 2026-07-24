@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    {
+      "id": "minecraft:sulfur_cube",
+      "required": false
+    },
+    {
+      "id": "minecraft:sulfur_block",
+      "required": false
+    }
+  ]
+}

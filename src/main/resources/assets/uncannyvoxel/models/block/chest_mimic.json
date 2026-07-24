@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/chest",
+  "textures": {
+    "particle": "uncannyvoxel:block/chest_mimic",
+    "top": "uncannyvoxel:block/chest_mimic_top",
+    "bottom": "uncannyvoxel:block/chest_mimic_bottom",
+    "front": "uncannyvoxel:block/chest_mimic_front",
+    "back": "uncannyvoxel:block/chest_mimic_back",
+    "left": "uncannyvoxel:block/chest_mimic_left",
+    "right": "uncannyvoxel:block/chest_mimic_right"
+  }
+}

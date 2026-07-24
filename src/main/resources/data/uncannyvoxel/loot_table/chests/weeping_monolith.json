@@ -1,0 +1,35 @@
+{
+  "type": "minecraft:chest",
+  "pools": [
+    {
+      "rolls": { "min": 3, "max": 8 },
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "uncannyvoxel:compacted_hair",
+          "weight": 15
+        },
+        {
+          "type": "minecraft:item",
+          "name": "uncannyvoxel:rusted_grate",
+          "weight": 10
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:netherite_scrap",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:ancient_debris",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "uncannyvoxel:desaturated_eye",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

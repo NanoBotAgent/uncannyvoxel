@@ -1,0 +1,22 @@
+{
+  "max_rooms": 20,
+  "max_depth": 5,
+  "shift_on_unobserved": true,
+  "shift_cooldown_ticks": 600,
+  "preserve_safe_zones": true,
+  "safe_zone_tags": [
+    "uncannyvoxel:tether_stake_safe"
+  ],
+  "room_templates": [
+    "uncannyvoxel:flesh_farm/entrance",
+    "uncannyvoxel:flesh_farm/corridor",
+    "uncannyvoxel:flesh_farm/chamber",
+    "uncannyvoxel:flesh_farm/slaughter_room",
+    "uncannyvoxel:flesh_farm/observation"
+  ],
+  "anti_crash_limits": {
+    "max_chunks_per_tick": 5,
+    "max_entities_spawned": 50,
+    "max_block_changes_per_tick": 1000
+  }
+}
