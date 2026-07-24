@@ -12,16 +12,16 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:26.2"
-    mappings "net.fabricmc:yarn:26.2+build.1:v2"
+    minecraft "com.mojang:minecraft:1.21.11"
+    mappings "net.fabricmc:yarn:1.21.11+build.6:v2"
 
-    modImplementation "net.fabricmc:fabric-loader:0.16.0"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.0+26.2"
+    modImplementation "net.fabricmc:fabric-loader:0.18.6"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:0.100.0+1.21.11"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
-    testImplementation 'net.fabricmc:fabric-test-interfaces:0.16.0+26.2'
-    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.100.0+26.2'
+    testImplementation 'net.fabricmc:fabric-test-interfaces:0.16.0+1.21.11'
+    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.100.0+1.21.11'
 }
 
 test {
