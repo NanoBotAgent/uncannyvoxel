@@ -9,7 +9,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,10 +29,6 @@ public class UncannyVoxelClient implements ClientModInitializer {
                 ClientAudioDirector.tick(client);
                 BlinkScheduler.tick(client);
             }
-        });
-
-        WorldRenderEvents.AFTER_ENTITIES.register(context -> {
-            // Update entity proximity for peripheral glitch / depth of field dread
         });
 
         HudRenderCallback.EVENT.register((drawContext, tickDelta) -> {

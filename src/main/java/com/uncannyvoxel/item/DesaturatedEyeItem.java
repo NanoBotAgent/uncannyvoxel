@@ -4,6 +4,7 @@ import com.uncannyvoxel.registry.ModSoundEvents;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemUsageContext;
+import net.minecraft.item.tooltip.TooltipDisplayComponent;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -15,7 +16,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.entity.player.PlayerEntity;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class DesaturatedEyeItem extends Item {
 
@@ -47,8 +48,8 @@ public class DesaturatedEyeItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.uncannyvoxel.desaturated_eye.tooltip"));
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, net.minecraft.item.tooltip.TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> tooltipAdder, TooltipType type) {
+        tooltipAdder.accept(Text.translatable("item.uncannyvoxel.desaturated_eye.tooltip"));
+        super.appendTooltip(stack, context, displayComponent, tooltipAdder, type);
     }
 }
