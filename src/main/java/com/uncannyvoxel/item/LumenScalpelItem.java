@@ -4,6 +4,7 @@ import com.uncannyvoxel.config.HorrorConfig;
 import com.uncannyvoxel.registry.ModSoundEvents;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.attribute.EntityAttributeModifier.Operation;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -19,11 +20,10 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Consumer;
 
 public class LumenScalpelItem extends Item {
 
-    private static final UUID MAX_HEALTH_MODIFIER_UUID = UUID.fromString("c7f3a4e2-8b1d-4f2a-9e6c-3d5a8b1c9f0e");
+    private static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.of("uncannyvoxel", "lumen_scalpel_drain");
     private static final float MAX_HEALTH_DRAIN = 0.5f; // 50% max health drain
     private static final float SAFE_FLOOR = 0.5f; // Minimum 50% of max health
 
@@ -33,7 +33,7 @@ public class LumenScalpelItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, ServerWorld world, net.minecraft.entity.Entity entity, EquipmentSlot slot) {
-        if (!world.isClient && entity instanceof PlayerEntity player) {
+        if (entity instanceof PlayerEntity player) {
             if (slot == EquipmentSlot.MAINHAND && stack.getDamage() < stack.getMaxDamage()) {
                 applyEffect(player);
             } else {
@@ -51,19 +51,18 @@ public class LumenScalpelItem extends Item {
         float newMaxHealth = Math.max(currentMaxHealth - drainAmount, currentMaxHealth * SAFE_FLOOR);
 
         // Apply modifier if not already applied
-        if (!player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).hasModifier(MAX_HEALTH_MODIFIER_UUID)) {
+        if (!player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).hasModifier(MAX_HEALTH_MODIFIER_ID)) {
             EntityAttributeModifier modifier = new EntityAttributeModifier(
-                    MAX_HEALTH_MODIFIER_UUID,
-                    "uncannyvoxel:lumen_scalpel_drain",
+                    MAX_HEALTH_MODIFIER_ID,
                     -(currentMaxHealth - newMaxHealth),
-                    EntityAttributeModifier.Operation.ADD_VALUE
+                    Operation.ADD_VALUE
             );
             player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).addPersistentModifier(modifier);
         }
     }
 
     private void removeEffect(PlayerEntity player) {
-        player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).removeModifier(MAX_HEALTH_MODIFIER_UUID);
+        player.getAttributeInstance(EntityAttributes.GENERIC_MAX_HEALTH).removeModifier(MAX_HEALTH_MODIFIER_ID);
     }
 
     @Override
@@ -87,12 +86,5 @@ public class LumenScalpelItem extends Item {
                     world.playSound(null, e.getBlockPos(), ModSoundEvents.MIRROR_WHISPER,
                             net.minecraft.sound.SoundCategory.PLAYERS, 0.5f, 1.2f);
                 });
-    }
-
-    @Override
-    public void appendTooltip(ItemStack stack, net.minecraft.item.tooltip.TooltipContext context, net.minecraft.item.tooltip.TooltipDisplayComponent displayComponent, Consumer<Text> tooltipAdder, TooltipType type) {
-        tooltipAdder.accept(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip1"));
-        tooltipAdder.accept(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip2"));
-        super.appendTooltip(stack, context, displayComponent, tooltipAdder, type);
     }
 }
