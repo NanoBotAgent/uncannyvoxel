@@ -1,3 +1,3 @@
-classTweaker 2 uncannyvoxel
+accesswidener "uncannyvoxel" v1
     # Access widener for GameTest support
     # TestContext.getWorld() is already accessible in yarn mappings
