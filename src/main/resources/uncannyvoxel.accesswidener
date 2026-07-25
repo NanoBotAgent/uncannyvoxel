@@ -1,3 +1,0 @@
-classTweaker v1 named
-    # Access widener for GameTest support
-    # TestContext.getWorld() is already accessible in yarn mappings

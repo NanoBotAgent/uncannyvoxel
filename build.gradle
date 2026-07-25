@@ -17,6 +17,7 @@ dependencies {
 
     modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
     modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-gametest-api-v1:${project.fabric_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
@@ -35,10 +36,6 @@ java {
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
-}
-
-loom {
-    accessWidenerPath = file('src/main/resources/uncannyvoxel.accesswidener')
 }
 
 tasks.register('validateResources') {
