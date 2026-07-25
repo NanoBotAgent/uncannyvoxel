@@ -86,7 +86,7 @@ jobs:
         run: ./gradlew clean build --no-daemon --stacktrace
 
       - name: Run Fabric GameTest via mc-runtime-test
-        uses: headlesshq/mc-runtime-test@v4.4.0
+        uses: headlesshq/mc-runtime-test@4.4.0
         with:
           minecraft-version: '1.21.11'
           modloader: 'fabric'
