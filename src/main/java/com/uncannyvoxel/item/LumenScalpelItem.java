@@ -7,9 +7,11 @@ import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipType;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.random.Random;
@@ -17,6 +19,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class LumenScalpelItem extends Item {
 
@@ -29,15 +32,15 @@ public class LumenScalpelItem extends Item {
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, World world, net.minecraft.entity.Entity entity, int slot, boolean selected) {
+    public void inventoryTick(ItemStack stack, ServerWorld world, net.minecraft.entity.Entity entity, EquipmentSlot slot) {
         if (!world.isClient && entity instanceof PlayerEntity player) {
-            if (selected && stack.getDamage() < stack.getMaxDamage()) {
+            if (slot == EquipmentSlot.MAINHAND && stack.getDamage() < stack.getMaxDamage()) {
                 applyEffect(player);
             } else {
                 removeEffect(player);
             }
         }
-        super.inventoryTick(stack, world, entity, slot, selected);
+        super.inventoryTick(stack, world, entity, slot);
     }
 
     private void applyEffect(PlayerEntity player) {
@@ -87,9 +90,9 @@ public class LumenScalpelItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip1"));
-        tooltip.add(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip2"));
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, net.minecraft.item.tooltip.TooltipContext context, net.minecraft.item.tooltip.TooltipDisplayComponent displayComponent, Consumer<Text> tooltipAdder, TooltipType type) {
+        tooltipAdder.accept(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip1"));
+        tooltipAdder.accept(Text.translatable("item.uncannyvoxel.lumen_scalpel.tooltip2"));
+        super.appendTooltip(stack, context, displayComponent, tooltipAdder, type);
     }
 }
