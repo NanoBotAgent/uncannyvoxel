@@ -1,1 +1,11 @@
+pluginManagement {
+    repositories {
+        maven {
+            name = 'FabricMC'
+            url = 'https://maven.fabricmc.net/'
+        }
+        gradlePluginPortal()
+    }
+}
+
 rootProject.name = 'uncannyvoxel'
