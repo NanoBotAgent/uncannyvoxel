@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version '1.6'
+    id 'fabric-loom' version '1.17'
     id 'java'
 }
 
@@ -12,16 +12,15 @@ repositories {
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:1.21.11"
-    mappings "net.fabricmc:yarn:1.21.11+build.6:v2"
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings "net.fabricmc:yarn:${project.yarn_mappings}"
 
-    modImplementation "net.fabricmc:fabric-loader:0.19.3"
-    modImplementation "net.fabricmc.fabric-api:fabric-api:0.141.5+1.21.11"
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
-    testImplementation 'net.fabricmc:fabric-test-interfaces:0.16.0+1.21.11'
-    testImplementation 'net.fabricmc.fabric-api:fabric-api:0.141.5+1.21.11'
+    modTestImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 }
 
 test {
