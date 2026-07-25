@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 /**
  * Target: SocialInteractionsScreen.SocialEntry (1.21.11 Yarn)
  */
-@Mixin(targets = "net.minecraft.client.gui.screen.social.SocialInteractionsScreen\$SocialEntry", require = 0)
+@Mixin(targets = "net.minecraft.client.gui.screen.social.SocialInteractionsScreen$SocialEntry", require = 0)
 public class FriendEntryMixin {
 
     @Inject(
