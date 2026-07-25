@@ -2,7 +2,7 @@ package com.uncannyvoxel.mixin.client;
 
 import com.uncannyvoxel.config.HorrorConfig;
 import com.uncannyvoxel.horror.NameCorruptor;
-import net.minecraft.client.gui.screen.social.FriendListWidget;
+import net.minecraft.client.gui.screen.social.SocialInteractionsScreen;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,10 +10,9 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
- * Target: FriendListWidget.FriendEntry (26.2 placeholder)
- * Confirmed class name needed from 26.2 mappings.
+ * Target: SocialInteractionsScreen.SocialEntry (1.21.11 Yarn)
  */
-@Mixin(targets = "net.minecraft.client.gui.screen.social.FriendListWidget$FriendEntry", require = 0)
+@Mixin(targets = "net.minecraft.client.gui.screen.social.SocialInteractionsScreen\$SocialEntry", require = 0)
 public class FriendEntryMixin {
 
     @Inject(

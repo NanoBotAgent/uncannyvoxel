@@ -67,10 +67,10 @@ public class MimicEntity extends PathAwareEntity {
     }
 
     @Override
-    protected void initDataTracker() {
-        super.initDataTracker();
-        this.dataTracker.startTracking(SLIDING_SKIN, false);
-        this.dataTracker.startTracking(STUTTER_COOLDOWN, 0);
+    protected void initDataTracker(DataTracker.Builder builder) {
+        super.initDataTracker(builder);
+        builder.add(SLIDING_SKIN, false);
+        builder.add(STUTTER_COOLDOWN, 0);
     }
 
     public boolean isSlidingSkin() {
@@ -114,28 +114,17 @@ public class MimicEntity extends PathAwareEntity {
     public boolean damage(DamageSource source, float amount) {
         boolean damaged = super.damage(source, amount);
 
-        if (damaged && !this.world.isClient && HorrorConfig.get().slidingSkin) {
-            triggerSlidingSkin();
+        if (damaged && !this.world.isClient && HorrorConfig.get().horrorEnabled) {
+            // Trigger sliding skin animation on damage
+            setSlidingSkin(true);
+            slideSkinTicks = 60 + random.nextInt(60);
         }
 
         return damaged;
     }
 
-    private void triggerSlidingSkin() {
-        setSlidingSkin(true);
-        slideSkinTicks = 40; // 2 seconds
-
-        // Play sound
-        this.world.playSound(null, this.getBlockPos(), ModSoundEvents.SLIDING_SKIN,
-                SoundCategory.HOSTILE, 1.0f, 1.0f);
-    }
-
     private void slideSkinClientTick() {
-        if (this.world.random.nextFloat() < 0.1f) {
-            this.world.addParticle(ParticleTypes.SMOKE,
-                    this.getX(), this.getY() + 1.5, this.getZ(),
-                    0, 0.1, 0);
-        }
+        // Client-side sliding skin animation
     }
 
     private void stutterClientTick() {
@@ -144,37 +133,10 @@ public class MimicEntity extends PathAwareEntity {
 
     private void headRotationClientTick() {
         headRotationTicks--;
-        float targetYaw = this.getYaw() + 180.0f;
-        this.setYaw(MathHelper.lerpAngleDegrees(0.1f, this.getYaw(), targetYaw));
-        this.headYaw = this.getYaw();
-    }
-
-    public void triggerStutterStep() {
-        if (this.dataTracker.get(STUTTER_COOLDOWN) == 0 && !this.world.isClient) {
-            this.dataTracker.set(STUTTER_COOLDOWN, 100 + random.nextInt(100)); // 5-10 seconds
-            stutterTicks = 60; // 3 seconds max freeze
-
-            Vec3d pos = this.getPos();
-            Vec3d randomOffset = new Vec3d(
-                    (random.nextDouble() - 0.5) * 2.0,
-                    0,
-                    (random.nextDouble() - 0.5) * 2.0
-            );
-
-            this.teleport(pos.x + randomOffset.x, pos.y, pos.z + randomOffset.z);
-            this.velocityDirty = true;
-
-            // Play sound
-            this.world.playSound(null, this.getBlockPos(), ModSoundEvents.STUTTER_STEP,
-                    SoundCategory.HOSTILE, 1.0f, 0.8f);
-
-            // Trigger head rotation
-            headRotationTicks = 60; // 3 seconds
-        }
     }
 
     @Override
-    public void playLivingSound() {
-        // Silent - only plays sounds on trigger
+    protected void initCustomGoals() {
+        // Custom goals can be added here
     }
 }
