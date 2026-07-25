@@ -24,7 +24,7 @@ public class DesaturatedEyeItem extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, ServerPlayerEntity player, Hand hand) {
+    public TypedActionResult<ItemStack> use(World world, net.minecraft.entity.player.PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             BlockPos pos = player.getBlockPos();
