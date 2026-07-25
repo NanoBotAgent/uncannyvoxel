@@ -1,15 +1,13 @@
 package com.uncannyvoxel.horror;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkPos;
-
-import java.util.HashMap;
-import java.util.Map;
+import net.minecraft.util.math.BlockPos;
+import com.google.common.collect.Long2ObjectOpenHashMap;
 
 public final class VantablackChunkManager {
 
-    private static final Map<Long, Boolean> VANTABLACK_CHUNKS = new HashMap<>();
+    private static final Long2ObjectOpenHashMap<Boolean> VANTABLACK_CHUNKS = new Long2ObjectOpenHashMap<>();
     private static final int DEFAULT_RANGE = 3;
 
     private VantablackChunkManager() {}
@@ -33,7 +31,7 @@ public final class VantablackChunkManager {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().vantablackChunksEnabled) {
             return false;
         }
-        return VANTABLACK_CHUNKS.getOrDefault(chunkPos.toLong(), false);
+        return VANTABLACK_CHUNKS.getBoolean(chunkPos.toLong());
     }
 
     public static boolean isVantablackChunk(BlockPos blockPos) {
@@ -46,7 +44,7 @@ public final class VantablackChunkManager {
         }
 
         ChunkPos chunkPos = new ChunkPos(cameraPos);
-        return VANTABLACK_CHUNKS.getOrDefault(chunkPos.toLong(), false);
+        return VANTABLACK_CHUNKS.getBoolean(chunkPos.toLong());
     }
 
     public static void markSulfurGeyserArea(BlockPos geyserPos) {
