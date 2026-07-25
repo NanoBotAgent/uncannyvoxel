@@ -2,7 +2,6 @@ package com.uncannyvoxel.ci;
 
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resource.ResourceManager;
-import net.minecraft.resource.ResourceManagerImpl;
 
 import java.io.IOException;
 import java.nio.file.Files;

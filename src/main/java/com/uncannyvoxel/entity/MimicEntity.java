@@ -111,8 +111,8 @@ public class MimicEntity extends PathAwareEntity {
     }
 
     @Override
-    public boolean damage(DamageSource source, float amount) {
-        boolean damaged = super.damage(source, amount);
+    public boolean damage(ServerWorld world, DamageSource source, float amount) {
+        boolean damaged = super.damage(world, source, amount);
 
         if (damaged && !this.world.isClient && HorrorConfig.get().horrorEnabled) {
             // Trigger sliding skin animation on damage

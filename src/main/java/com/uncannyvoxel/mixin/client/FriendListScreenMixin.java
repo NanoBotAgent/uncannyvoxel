@@ -7,6 +7,7 @@ import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 /**
@@ -16,20 +17,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class FriendListScreenMixin {
 
     @Inject(
-        method = "getTitle",
-        at = @At("RETURN"),
-        cancellable = true,
+        method = "render",
+        at = @At("HEAD"),
         require = 0
     )
-    private void uncanny$corruptScreenTitle(CallbackInfoReturnable<Text> cir) {
+    private void uncanny$corruptFriendNamesOnRender(CallbackInfo ci) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().friendListCorruptionEnabled) {
             return;
         }
-
-        Text original = cir.getReturnValue();
-        if (original == null) return;
-
-        String corrupted = NameCorruptor.corrupt(original.getString());rupt(original.getString());
-        cir.setReturnValue(Text.literal(corrupted).setStyle(original.getStyle()));
+        // Widget-level corruption happens in FriendEntryMixin
     }
 }
