@@ -1,20 +1,16 @@
 package com.uncannyvoxel.test.gametest;
 
 import com.uncannyvoxel.registry.ModDimensions;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class UncannyDimensionGameTest implements FabricGameTest {
+public class UncannyDimensionGameTest {
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(templateName = "empty")
     public void substrateDimensionExists(TestContext context) {
-        RegistryKey<World> substrateKey = ModDimensions.SUBSTRATE;
+        var substrateKey = ModDimensions.SUBSTRATE;
 
         World substrate = context.getWorld().getServer().getWorld(substrateKey);
 
@@ -22,7 +18,7 @@ public class UncannyDimensionGameTest implements FabricGameTest {
         context.complete();
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(templateName = "empty")
     public void substrateChunkGenerationDoesNotCrash(TestContext context) {
         World substrate = context.getWorld().getServer().getWorld(ModDimensions.SUBSTRATE);
 

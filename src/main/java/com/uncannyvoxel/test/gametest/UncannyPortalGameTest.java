@@ -2,18 +2,14 @@ package com.uncannyvoxel.test.gametest;
 
 import com.uncannyvoxel.UncannyVoxelMod;
 import com.uncannyvoxel.registry.ModDimensions;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-public class UncannyPortalGameTest implements FabricGameTest {
+public class UncannyPortalGameTest {
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(templateName = "empty")
     public void portalFrameValidates(TestContext context) {
         BlockPos center = new BlockPos(1, 2, 1);
 
@@ -35,7 +31,7 @@ public class UncannyPortalGameTest implements FabricGameTest {
         context.complete();
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
+    @GameTest(templateName = "empty")
     public void portalInvalidFrameFails(TestContext context) {
         BlockPos center = new BlockPos(1, 2, 1);
 

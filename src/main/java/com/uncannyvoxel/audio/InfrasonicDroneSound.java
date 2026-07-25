@@ -3,9 +3,9 @@ package com.uncannyvoxel.audio;
 import com.uncannyvoxel.config.HorrorConfig;
 import com.uncannyvoxel.registry.ModSoundEvents;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.sound.SoundInstance;
 import net.minecraft.client.sound.SoundManager;
-import net.minecraft.client.player.LocalPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.util.Identifier;
@@ -19,7 +19,7 @@ public class InfrasonicDroneSound {
     private static int droneTimer = 0;
     private static int droneLayer = 0;
 
-    public static void tick(LocalPlayerEntity player) {
+    public static void tick(ClientPlayerEntity player) {
         if (!HorrorConfig.isAudioEnabled() || !HorrorConfig.isHorrorEnabled()) {
             stop();
             return;
@@ -34,6 +34,8 @@ public class InfrasonicDroneSound {
                 stop();
             }
         } else if (dread > 0.2f && RANDOM.nextFloat() < 0.001f * dread) {
+            float volume = 0.5f + RANDOM.nextFloat() * 0.3f;
+            float pitch = 0.8f + RANDOM.nextFloat() * 0.4f;
             startDrone(player, volume, pitch);
         }
     }
@@ -46,9 +48,9 @@ public class InfrasonicDroneSound {
         return Math.min(dread, 1f);
     }
 
-    private static void startDrone(LocalPlayerEntity player, float volume, float pitch) {
+    private static void startDrone(ClientPlayerEntity player, float volume, float pitch) {
         float masterVolume = HorrorConfig.getMasterVolume();
-        volume = AudioSafety.clampInfrasoundVolume(volume * masterVolume, masterVolume);
+        volume = AudioSafety.clampInfrasonicVolume(volume * masterVolume);
         if (volume <= 0) return;
 
         activeDrone = new SoundInstance(

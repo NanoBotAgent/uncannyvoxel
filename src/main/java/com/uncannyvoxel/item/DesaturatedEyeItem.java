@@ -11,9 +11,9 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.entity.player.PlayerEntity;
 
 import java.util.List;
 
@@ -24,13 +24,13 @@ public class DesaturatedEyeItem extends Item {
     }
 
     @Override
-    public TypedActionResult<ItemStack> use(World world, net.minecraft.entity.player.PlayerEntity player, Hand hand) {
+    public ActionResult use(World world, PlayerEntity player, Hand hand) {
         ItemStack stack = player.getStackInHand(hand);
         if (!world.isClient && world instanceof ServerWorld serverWorld) {
             BlockPos pos = player.getBlockPos();
             com.uncannyvoxel.portal.PortalController.tryActivate(serverWorld, pos, player);
         }
-        return TypedActionResult.success(stack, world.isClient());
+        return ActionResult.success(world.isClient());
     }
 
     @Override
