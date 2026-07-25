@@ -16,14 +16,14 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup JDK 21
+      - name: Setup JDK 25
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '21'
+          java-version: '25'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Make gradlew executable
         run: chmod +x gradlew
@@ -81,14 +81,16 @@ jobs:
           path: build/libs
 
       - name: Run Fabric GameTest via mc-runtime-test
-        uses: headlesshq/mc-runtime-test@4.4.0
+        uses: headlesshq/mc-runtime-test@4.5.1
         with:
-          minecraft-version: '1.21.11'
+          mc: '26.2'
           modloader: 'fabric'
-          fabric-api: '0.141.5'
-          mod-jar: 'build/libs/uncannyvoxel-*.jar'
+          regex: '.*fabric.*'
+          mc-runtime-test: 'fabric'
+          java: '25'
+          fabric-api: '0.155.2'
+          fabric-gametest-api: '4.0.13'
           headlessmc-command: '/test runall'
-          java-flags: '-Dfabric-api.gametest=true'
 
   ci-verification-gate:
     name: CI Verification Gate
