@@ -1,7 +1,7 @@
 package com.uncannyvoxel.test.gametest;
 
 import com.uncannyvoxel.registry.ModDimensions;
-import net.minecraft.test.GameTest;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;

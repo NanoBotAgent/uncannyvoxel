@@ -44,7 +44,7 @@ public class SulfurGlassMirrorBlock extends BlockWithEntity implements BlockEnti
     }
 
     @Override
-    public void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
+    public void onStateReplaced(BlockState state, ServerWorld world, BlockPos pos, BlockState newState, boolean moved) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof SulfurGlassMirrorBlockEntity mirror) {
