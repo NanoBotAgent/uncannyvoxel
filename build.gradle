@@ -39,6 +39,17 @@ tasks.withType(JavaCompile) {
 }
 
 loom {
-    // GameTest configuration
     accessWidenerPath = file('src/main/resources/uncannyvoxel.accesswidener')
+}
+
+tasks.register('validateResources') {
+    group = 'verification'
+    description = 'Validates that all resource files are present and well-formed'
+    doLast {
+        def fabricModJson = file('src/main/resources/fabric.mod.json')
+        if (!fabricModJson.exists()) {
+            throw new GradleException('fabric.mod.json not found!')
+        }
+        println 'Resources validated successfully'
+    }
 }

@@ -20,6 +20,7 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -55,7 +56,7 @@ public class MimicEntity extends PathAwareEntity {
     protected void initGoals() {
         this.goalSelector.add(1, new SwimGoal(this));
         this.goalSelector.add(2, new MimicStutterStepGoal(this));
-        this.goalSelector.add(3, new MimicHeadTrackingGoal(this));
+        this.goalSelector.add(3, new MimicHeadRotationGoal(this));
         this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0, false));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.2));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 16.0f));

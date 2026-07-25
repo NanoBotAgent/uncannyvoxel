@@ -36,6 +36,53 @@ public final class HorrorConfig {
     public int vantablackRangeChunks = 3;
     public float lumenScalpelMaxHealthDrain = 0.5f; // max 50% health drain
     public int tetherStakeRadius = 5;
+    
+    // Additional fields referenced by code
+    public boolean horrorEnabled = true;
+    public boolean audioEnabled = true;
+    public float horrorVolume = 1.0f;
+    public boolean slidingSkin = true;
+    public boolean blinkEffect = true;
+    public float maxCorruptionIntensity = 1.0f;
+    public float peripheralGlitchChance = 0.3f;
+    public boolean bedParalysis = true;
+
+    private static HorrorConfig INSTANCE;
+
+    public static HorrorConfig get() {
+        if (INSTANCE == null) {
+            INSTANCE = load();
+        }
+        return INSTANCE;
+    }
+
+    public static boolean isHorrorEnabled() {
+        return get().masterHorrorEnabled;
+    }
+
+    public static boolean isAudioEnabled() {
+        return get().audioEnabled;
+    }
+
+    public static boolean isMicEnabled() {
+        return get().micCaptureEnabled;
+    }
+
+    public static int getBlinkCooldown() {
+        return get().blinkMinCooldownTicks;
+    }
+
+    public static int getMaxBlinkDuration() {
+        return get().blinkDurationTicks;
+    }
+
+    public static float getMasterVolume() {
+        return get().horrorVolume;
+    }
+
+    public static float getGlitchVolume() {
+        return get().peripheralGlitchIntensity;
+    }
 
     public static HorrorConfig load() {
         Path configPath = FabricLoader.getInstance().getConfigDir().resolve("uncannyvoxel.json");

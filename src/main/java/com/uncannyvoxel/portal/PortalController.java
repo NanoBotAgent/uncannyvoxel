@@ -19,6 +19,7 @@ import net.minecraft.world.dimension.DimensionType;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.function.Predicate;
 
 public class PortalController {
 

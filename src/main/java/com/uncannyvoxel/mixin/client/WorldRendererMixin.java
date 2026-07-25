@@ -2,8 +2,10 @@ package com.uncannyvoxel.mixin.client;
 
 import com.uncannyvoxel.horror.UncannyRenderBridge;
 import com.uncannyvoxel.horror.BlinkScheduler;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.Camera;
+import net.minecraft.client.util.math.MatrixStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -17,17 +19,13 @@ public class WorldRendererMixin {
         at = @At("TAIL")
     )
     private void uncanny$renderHorrorEffects(Camera camera, CallbackInfo ci) {
-        UncannyRenderBridge.loadShaders(net.minecraft.client.MinecraftClient.getInstance());
-        
-        // Update blink shader
-        BlinkScheduler scheduler = BlinkScheduler.getInstance();
-        if (scheduler.isBlinkActive()) {
-            float progress = scheduler.getBlinkProgress(net.minecraft.client.MinecraftClient.getInstance());
+        MinecraftClient client = MinecraftClient.getInstance();
+        UncannyRenderBridge.loadShaders(client);
+
+        if (BlinkScheduler.isBlinkActive()) {
+            float progress = BlinkScheduler.getBlinkProgress(client);
             UncannyRenderBridge.updateBlinkIntensity(progress);
             UncannyRenderBridge.renderBlinkOverlay(new MatrixStack(), camera, 0);
         }
-        
-        // Peripheral glitch
-        // Update based on entity proximity
     }
 }
