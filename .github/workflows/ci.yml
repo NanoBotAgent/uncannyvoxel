@@ -29,7 +29,9 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build --no-daemon --stacktrace 2>&1 | tee build.log
+        run: |
+          set -o pipefail
+          ./gradlew clean build --no-daemon --stacktrace 2>&1 | tee build.log
 
       - name: Upload build log
         if: always()
@@ -40,7 +42,9 @@ jobs:
           retention-days: 7
 
       - name: Run unit tests
-        run: ./gradlew test --no-daemon --stacktrace 2>&1 | tee test.log
+        run: |
+          set -o pipefail
+          ./gradlew test --no-daemon --stacktrace 2>&1 | tee test.log
 
       - name: Upload test log
         if: always()
