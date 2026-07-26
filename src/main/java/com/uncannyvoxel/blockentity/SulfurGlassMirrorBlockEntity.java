@@ -1,14 +1,12 @@
 package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.VantablackChunkManager;
-import com.uncannyvoxel.portal.PortalController;
-import com.uncannyvoxel.portal.SubstrateSpawn;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.nbt.CompoundTag;
 
 public class SulfurGlassMirrorBlockEntity extends BlockEntity {
 
@@ -20,36 +18,35 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        nbt.putBoolean("portalActive", portalActive);
-        nbt.putInt("activationCooldown", activationCooldown);
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putBoolean("portalActive", portalActive);
+        tag.putInt("activationCooldown", activationCooldown);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        portalActive = nbt.getBoolean("portalActive");
-        activationCooldown = nbt.getInt("activationCooldown");
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        portalActive = tag.getBoolean("portalActive");
+        activationCooldown = tag.getInt("activationCooldown");
     }
 
-    public static void tick(ServerWorld world, BlockPos pos, BlockState state, SulfurGlassMirrorBlockEntity entity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, SulfurGlassMirrorBlockEntity entity) {
         if (entity.activationCooldown > 0) {
             entity.activationCooldown--;
         }
 
-        // Update vantablack chunks near sulfur geysers
         VantablackChunkManager.markSulfurGeyserArea(pos);
     }
 
     public void onPortalActivated() {
         portalActive = true;
         activationCooldown = 100;
-        markDirty();
+        setChanged();
     }
 
     public void onPortalDeactivated() {
         portalActive = false;
-        markDirty();
+        setChanged();
     }
 }

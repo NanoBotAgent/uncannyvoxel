@@ -1,24 +1,19 @@
 package com.uncannyvoxel.portal;
 
 import com.uncannyvoxel.registry.ModBlocks;
+import com.uncannyvoxel.registry.ModDimensions;
+import com.uncannyvoxel.registry.ModItems;
 import com.uncannyvoxel.registry.ModTags;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.world.World;
-import net.minecraft.world.dimension.DimensionType;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.function.Predicate;
 
 public class PortalController {
@@ -33,11 +28,11 @@ public class PortalController {
 
     public static void init() {}
 
-    public static void onWorldLoad(ServerWorld world) {
+    public static void onWorldLoad(ServerLevel level) {
         ACTIVE_PORTALS.clear();
     }
 
-    public static void onWorldTick(ServerWorld world) {
+    public static void onWorldTick(ServerLevel level) {
         ACTIVE_PORTALS.entrySet().removeIf(entry -> {
             PortalState state = entry.getValue();
             if (state.cooldown > 0) {
@@ -46,8 +41,8 @@ public class PortalController {
             if (!state.active) {
                 return state.cooldown <= 0;
             }
-            BlockState centerState = world.getBlockState(entry.getKey());
-            if (!centerState.isOf(ModBlocks.SULFUR_GLASS_MIRROR)) {
+            BlockState centerState = level.getBlockState(entry.getKey());
+            if (!centerState.is(ModBlocks.SULFUR_GLASS_MIRROR)) {
                 state.active = false;
                 state.cooldown = COOLDOWN_TICKS;
                 return false;
@@ -56,24 +51,24 @@ public class PortalController {
         });
     }
 
-    public static void tryActivate(ServerWorld world, BlockPos center, ServerPlayerEntity player) {
-        if (!world.getBlockState(center).isOf(ModBlocks.SULFUR_GLASS_MIRROR)) {
+    public static void tryActivate(ServerLevel level, BlockPos center, ServerPlayer player) {
+        if (!level.getBlockState(center).is(ModBlocks.SULFUR_GLASS_MIRROR)) {
             return;
         }
 
-        PortalState state = ACTIVE_PORTALS.computeIfAbsent(center.toImmutable(), k -> new PortalState());
+        PortalState state = ACTIVE_PORTALS.computeIfAbsent(center.immutable(), k -> new PortalState());
         if (state.cooldown > 0 || state.active) {
             return;
         }
 
-        Predicate<BlockState> framePredicate = s -> s.isIn(ModTags.SUBSTRATE_FRAME);
-        Predicate<BlockState> centerPredicate = s -> s.isOf(ModBlocks.SULFUR_GLASS_MIRROR);
+        Predicate<BlockState> framePredicate = s -> s.is(ModTags.SUBSTRATE_FRAME);
+        Predicate<BlockState> centerPredicate = s -> s.is(ModBlocks.SULFUR_GLASS_MIRROR);
 
-        if (!PortalFrameValidator.isValid(world, center, framePredicate, centerPredicate)) {
+        if (!PortalFrameValidator.isValid(level, center, framePredicate, centerPredicate)) {
             return;
         }
 
-        ItemStack eyeStack = player.getMainHandStack();
+        ItemStack eyeStack = player.getMainHandItem();
         if (!isDesaturatedEye(eyeStack)) {
             return;
         }
@@ -84,41 +79,41 @@ public class PortalController {
         }
 
         if (decision.consumeEye() > 0) {
-            eyeStack.decrement(decision.consumeEye());
+            eyeStack.shrink(decision.consumeEye());
         }
 
-        activatePortal(world, center, state);
+        activatePortal(level, center, state);
     }
 
-    private static void activatePortal(ServerWorld world, BlockPos center, PortalState state) {
+    private static void activatePortal(ServerLevel level, BlockPos center, PortalState state) {
         state.active = true;
         state.cooldown = COOLDOWN_TICKS;
 
-        world.playSound(null, center, SoundEvents.BLOCK_GLASS_BREAK, SoundCategory.BLOCKS, 1.0f, 0.8f);
-        world.playSound(null, center, SoundEvents.ENTITY_ENDERMAN_TELEPORT, SoundCategory.BLOCKS, 0.7f, 1.2f);
+        level.playSound(null, center, SoundEvents.GLASS_BREAK, SoundSource.BLOCKS, 1.0f, 0.8f);
+        level.playSound(null, center, SoundEvents.ENDERMAN_TELEPORT, SoundSource.BLOCKS, 0.7f, 1.2f);
 
-        for (ServerPlayerEntity player : world.getPlayers(p -> p.getBlockPos().isWithinDistance(center, 5))) {
-            teleportToSubstrate(player, world);
+        for (ServerPlayer player : level.getPlayers(p -> p.blockPosition().closerThan(center, 5))) {
+            teleportToSubstrate(player, level);
         }
     }
 
-    private static void teleportToSubstrate(ServerPlayerEntity player, ServerWorld world) {
-        ServerWorld substrateWorld = world.getServer().getWorld(ModDimensions.SUBSTRATE);
-        if (substrateWorld == null) {
+    private static void teleportToSubstrate(ServerPlayer player, ServerLevel level) {
+        ServerLevel substrateLevel = level.getServer().getLevel(ModDimensions.SUBSTRATE);
+        if (substrateLevel == null) {
             return;
         }
 
-        BlockPos spawnPos = SubstrateSpawn.findSafeSpawn(substrateWorld, BlockPos.ORIGIN);
-        player.teleport(substrateWorld, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5,
-                player.getYaw(), player.getPitch());
+        BlockPos spawnPos = SubstrateSpawn.findSafeSpawn(substrateLevel, BlockPos.ZERO);
+        player.teleportTo(substrateLevel, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5,
+                player.getYRot(), player.getXRot());
     }
 
     private static boolean isDesaturatedEye(ItemStack stack) {
-        return stack.isOf(ModItems.DESATURATED_EYE);
+        return stack.is(ModItems.DESATURATED_EYE);
     }
 
     public static void deactivate(BlockPos center) {
-        PortalState state = ACTIVE_PORTALS.get(center.toImmutable());
+        PortalState state = ACTIVE_PORTALS.get(center.immutable());
         if (state != null) {
             state.active = false;
             state.cooldown = COOLDOWN_TICKS;

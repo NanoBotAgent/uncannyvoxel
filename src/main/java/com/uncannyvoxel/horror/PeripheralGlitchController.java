@@ -1,9 +1,9 @@
 package com.uncannyvoxel.horror;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 import java.util.Random;
 
@@ -14,16 +14,15 @@ public class PeripheralGlitchController {
     private static float targetIntensity = 0.0f;
     private static long lastTriggerTick = 0;
 
-    public static void tick(MinecraftClient client) {
+    public static void tick(Minecraft client) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().peripheralGlitchEnabled) {
             currentIntensity = 0.0f;
             targetIntensity = 0.0f;
             return;
         }
 
-        if (client.player == null || client.world == null) return;
+        if (client.player == null || client.level == null) return;
 
-        // Check for nearby entities not being looked at
         Entity target = findPeripheralEntity(client);
         if (target != null) {
             float distance = (float) client.player.distanceTo(target);
@@ -35,7 +34,6 @@ public class PeripheralGlitchController {
             }
         }
 
-        // Smooth intensity
         if (currentIntensity < targetIntensity) {
             currentIntensity = Math.min(currentIntensity + 0.02f, targetIntensity);
         } else if (currentIntensity > targetIntensity) {
@@ -43,19 +41,18 @@ public class PeripheralGlitchController {
         }
     }
 
-    private static Entity findPeripheralEntity(MinecraftClient client) {
-        Vec3d lookDir = client.player.getRotationVec(1.0f);
+    private static Entity findPeripheralEntity(Minecraft client) {
+        Vec3 lookDir = client.player.getLookAngle();
         Entity bestTarget = null;
         float bestDot = 0.0f;
 
-        for (Entity entity : client.world.getEntities()) {
+        for (Entity entity : client.level.entitiesForRendering()) {
             if (entity == client.player) continue;
-            if (!(entity instanceof net.minecraft.entity.LivingEntity)) continue;
+            if (!(entity instanceof net.minecraft.world.entity.LivingEntity)) continue;
 
-            Vec3d toEntity = entity.getPos().subtract(client.player.getPos()).normalize();
-            float dot = (float) lookDir.dotProduct(toEntity);
+            Vec3 toEntity = entity.position().subtract(client.player.position()).normalize();
+            float dot = (float) lookDir.dot(toEntity);
 
-            // Entity is in peripheral vision (not directly looked at)
             if (dot < 0.5f && dot > -0.5f) {
                 if (dot > bestDot) {
                     bestDot = dot;
@@ -69,7 +66,7 @@ public class PeripheralGlitchController {
 
     private static void triggerGlitch(float proximityFactor) {
         targetIntensity = Math.min(HorrorConfig.get().peripheralGlitchIntensity * proximityFactor, 1.0f);
-        lastTriggerTick = MinecraftClient.getInstance().world.getTime();
+        lastTriggerTick = Minecraft.getInstance().level.getGameTime();
     }
 
     public static float getCurrentIntensity() {

@@ -1,9 +1,8 @@
 package com.uncannyvoxel.audio;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.SoundManager;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.resources.ResourceLocation;
 
 public interface MicCapture {
     void start();

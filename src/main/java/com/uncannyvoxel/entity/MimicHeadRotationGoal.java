@@ -1,44 +1,42 @@
 package com.uncannyvoxel.entity;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.util.Mth;
 
 import java.util.EnumSet;
 
 public class MimicHeadRotationGoal extends Goal {
 
-    private final PathAwareEntity mimic;
+    private final PathfinderMob mimic;
     private int rotationTicks = 0;
 
-    public MimicHeadRotationGoal(PathAwareEntity mimic) {
+    public MimicHeadRotationGoal(PathfinderMob mimic) {
         this.mimic = mimic;
-        this.setControls(EnumSet.of(Control.LOOK));
+        this.setFlags(EnumSet.of(Flag.LOOK));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         return rotationTicks > 0;
     }
 
     @Override
     public void start() {
-        // Already rotating
     }
 
     @Override
     public void tick() {
         if (rotationTicks > 0) {
             rotationTicks--;
-            float targetYaw = mimic.getYaw() + 180.0f;
-            float currentYaw = mimic.getYaw();
+            float targetYaw = mimic.getYRot() + 180.0f;
+            float currentYaw = mimic.getYRot();
 
-            // Smooth rotation towards target
-            float newYaw = MathHelper.lerpAngleDegrees(0.05f, currentYaw, targetYaw);
-            mimic.setYaw(newYaw);
-            mimic.headYaw = newYaw;
-            mimic.bodyYaw = newYaw;
+            float newYaw = Mth.lerpAngleDegrees(0.05f, currentYaw, targetYaw);
+            mimic.setYRot(newYaw);
+            mimic.yHeadRot = newYaw;
+            mimic.yBodyRot = newYaw;
         }
     }
 
@@ -47,7 +45,7 @@ public class MimicHeadRotationGoal extends Goal {
     }
 
     @Override
-    public boolean shouldRunEveryTick() {
+    public boolean requiresUpdateEveryTick() {
         return true;
     }
 }

@@ -1,23 +1,22 @@
 package com.uncannyvoxel.horror;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.client.Minecraft;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.phys.Vec3;
 
 public class DepthOfFieldDreadController {
 
     private static float currentDreadIntensity = 0.0f;
 
-    public static void tick(MinecraftClient client) {
+    public static void tick(Minecraft client) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().depthOfFieldDreadEnabled) {
             currentDreadIntensity = 0.0f;
             return;
         }
 
-        if (client.player == null || client.world == null) return;
+        if (client.player == null || client.level == null) return;
 
-        // Check for entity directly behind player
         Entity behindEntity = findEntityBehind(client);
         if (behindEntity != null) {
             float distance = (float) client.player.distanceTo(behindEntity);
@@ -34,20 +33,20 @@ public class DepthOfFieldDreadController {
         }
     }
 
-    private static Entity findEntityBehind(MinecraftClient client) {
-        Vec3d lookDir = client.player.getRotationVec(1.0f);
-        Vec3d backDir = lookDir.multiply(-1);
+    private static Entity findEntityBehind(Minecraft client) {
+        Vec3 lookDir = client.player.getLookAngle();
+        Vec3 backDir = lookDir.scale(-1);
         Entity bestTarget = null;
         float bestDot = 0.0f;
 
-        for (Entity entity : client.world.getEntities()) {
+        for (Entity entity : client.level.entitiesForRendering()) {
             if (entity == client.player) continue;
-            if (!(entity instanceof net.minecraft.entity.LivingEntity)) continue;
+            if (!(entity instanceof net.minecraft.world.entity.LivingEntity)) continue;
 
-            Vec3d toEntity = entity.getPos().subtract(client.player.getPos()).normalize();
-            float dot = (float) backDir.dotProduct(toEntity);
+            Vec3 toEntity = entity.position().subtract(client.player.position()).normalize();
+            float dot = (float) backDir.dot(toEntity);
 
-            if (dot > 0.7f && dot > bestDot) { // Within ~45 degrees behind
+            if (dot > 0.7f && dot > bestDot) {
                 bestDot = dot;
                 bestTarget = entity;
             }

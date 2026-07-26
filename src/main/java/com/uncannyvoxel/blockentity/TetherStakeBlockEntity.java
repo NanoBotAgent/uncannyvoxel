@@ -1,14 +1,16 @@
 package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
-import com.uncannyvoxel.portal.SubstrateSpawn;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.AABB;
 
 import java.util.UUID;
 
@@ -23,93 +25,90 @@ public class TetherStakeBlockEntity extends BlockEntity {
         super(com.uncannyvoxel.registry.ModBlockEntities.TETHER_STAKE, pos, state);
     }
 
-    public void activate(PlayerEntity player) {
+    public void activate(Player player) {
         if (active) return;
 
-        ownerUuid = player.getUuid();
+        ownerUuid = player.getUUID();
         active = true;
         cooldown = 0;
-        markDirty();
+        setChanged();
 
-        // Set safe zone - geometry cannot shift
         DreadModel.registerSafeZone(pos, radius);
     }
 
-    public void onOwnerLeft(PlayerEntity player) {
-        if (!active || ownerUuid == null || !ownerUuid.equals(player.getUuid())) {
+    public void onOwnerLeft(Player player) {
+        if (!active || ownerUuid == null || !ownerUuid.equals(player.getUUID())) {
             return;
         }
 
-        // Violent uproot
         active = false;
         DreadModel.unregisterSafeZone(pos);
         ownerUuid = null;
-        cooldown = 200; // 10 seconds before reactivation
-        markDirty();
+        cooldown = 200;
+        setChanged();
 
-        // Alert nearby entities
         alertNearbyEntities(player);
     }
 
-    private void alertNearbyEntities(PlayerEntity player) {
-        if (world instanceof ServerWorld serverWorld) {
-            Box box = new Box(pos).expand(50);
-            serverWorld.getEntitiesByClass(net.minecraft.entity.LivingEntity.class, box, e -> e != player)
+    private void alertNearbyEntities(Player player) {
+        if (level instanceof ServerLevel serverLevel) {
+            AABB box = new AABB(pos).inflate(50);
+            serverLevel.getEntitiesOfClass(LivingEntity.class, box, e -> e != player)
                     .forEach(e -> {
-                        if (e instanceof net.minecraft.entity.mob.PathAwareEntity pathEntity) {
-                            pathEntity.setTarget(player);
+                        if (e instanceof Mob mob) {
+                            mob.setTarget(player);
                         }
                     });
         }
     }
 
-    public static void tick(ServerWorld world, BlockPos pos, BlockState state, TetherStakeBlockEntity entity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, TetherStakeBlockEntity entity) {
         if (entity.cooldown > 0) {
             entity.cooldown--;
         }
 
-        if (entity.active && entity.ownerUuid != null) {
-            PlayerEntity owner = world.getPlayerByUuid(entity.ownerUuid);
+        if (entity.active && entity.ownerUuid != null && level instanceof ServerLevel serverLevel) {
+            Player owner = serverLevel.getServer().getPlayerList().getPlayer(entity.ownerUuid);
             if (owner == null || !isInRadius(owner, pos, entity.radius)) {
                 if (owner != null) {
                     entity.onOwnerLeft(owner);
                 } else {
                     entity.active = false;
-                    com.uncannyvoxel.horror.DreadModel.unregisterSafeZone(pos);
+                    DreadModel.unregisterSafeZone(pos);
                     entity.ownerUuid = null;
-                    entity.markDirty();
+                    entity.setChanged();
                 }
             }
         }
     }
 
-    private static boolean isInRadius(PlayerEntity player, BlockPos stakePos, int radius) {
-        return player.getBlockPos().isWithinDistance(stakePos, radius);
+    private static boolean isInRadius(Player player, BlockPos stakePos, int radius) {
+        return player.blockPosition().closerThan(stakePos, radius);
     }
 
-    public boolean isSafeZone(BlockPos pos) {
-        return active && this.pos.isWithinDistance(pos, radius);
+    public boolean isSafeZone(BlockPos checkPos) {
+        return active && pos.closerThan(checkPos, radius);
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (ownerUuid != null) {
-            nbt.putUuid("owner", ownerUuid);
+            tag.putUUID("owner", ownerUuid);
         }
-        nbt.putInt("radius", radius);
-        nbt.putBoolean("active", active);
-        nbt.putInt("cooldown", cooldown);
+        tag.putInt("radius", radius);
+        tag.putBoolean("active", active);
+        tag.putInt("cooldown", cooldown);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        if (nbt.containsUuid("owner")) {
-            ownerUuid = nbt.getUuid("owner");
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        if (tag.hasUUID("owner")) {
+            ownerUuid = tag.getUUID("owner");
         }
-        radius = nbt.getInt("radius");
-        active = nbt.getBoolean("active");
-        cooldown = nbt.getInt("cooldown");
+        radius = tag.getInt("radius");
+        active = tag.getBoolean("active");
+        cooldown = tag.getInt("cooldown");
     }
 }

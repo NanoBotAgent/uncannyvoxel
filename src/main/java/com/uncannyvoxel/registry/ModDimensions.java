@@ -1,16 +1,16 @@
 package com.uncannyvoxel.registry;
 
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import net.minecraft.world.World;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 
 public final class ModDimensions {
 
     public static final String MOD_ID = "uncannyvoxel";
 
-    public static final RegistryKey<World> SUBSTRATE =
-            RegistryKey.of(RegistryKeys.WORLD, Identifier.of(MOD_ID, "substrate"));
+    public static final ResourceKey<Level> SUBSTRATE =
+            ResourceKey.create(Registries.DIMENSION, ResourceLocation.fromNamespaceAndPath(MOD_ID, "substrate"));
 
     private ModDimensions() {}
 

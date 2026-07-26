@@ -1,16 +1,17 @@
 package com.uncannyvoxel.portal;
 
-import net.minecraft.block.Blocks;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.ChunkGenerator;
 
 public final class SubstrateSpawn {
 
     private SubstrateSpawn() {}
 
-    public static BlockPos findSafeSpawn(ServerWorld world, BlockPos origin) {
-        BlockPos.Mutable mutable = origin.mutableCopy();
+    public static BlockPos findSafeSpawn(ServerLevel level, BlockPos origin) {
+        BlockPos.MutableBlockPos mutable = origin.mutable();
         int radius = 0;
         int maxRadius = 32;
 
@@ -19,8 +20,8 @@ public final class SubstrateSpawn {
                 for (int dz = -radius; dz <= radius; dz++) {
                     mutable.set(origin.getX() + dx, origin.getY(), origin.getZ() + dz);
 
-                    if (isSafeSpawn(world, mutable)) {
-                        int y = findSurfaceY(world, mutable);
+                    if (isSafeSpawn(level, mutable)) {
+                        int y = findSurfaceY(level, mutable);
                         return new BlockPos(mutable.getX(), y + 1, mutable.getZ());
                     }
                 }
@@ -28,42 +29,43 @@ public final class SubstrateSpawn {
             radius++;
         }
 
-        // Fallback: create platform at origin
-        createPlatform(world, origin);
-        return origin.up(2);
+        createPlatform(level, origin);
+        return origin.above(2);
     }
 
-    private static boolean isSafeSpawn(ServerWorld world, BlockPos pos) {
-        BlockPos below = pos.down();
-        if (!world.getBlockState(below).isSolidBlock(world, below)) {
+    private static boolean isSafeSpawn(ServerLevel level, BlockPos pos) {
+        BlockPos below = pos.below();
+        if (!level.getBlockState(below).isSolidRender(level, below)) {
             return false;
         }
-        if (!world.getBlockState(pos).isAir()) {
+        if (!level.getBlockState(pos).isAir()) {
             return false;
         }
-        if (!world.getBlockState(pos.up()).isAir()) {
+        if (!level.getBlockState(pos.above()).isAir()) {
             return false;
         }
         return true;
     }
 
-    private static int findSurfaceY(ServerWorld world, BlockPos pos) {
-        int y = world.getTopY() - 1;
-        while (y > world.getBottomY()) {
-            BlockPos testPos = pos.withY(y);
-            if (world.getBlockState(testPos).isSolidBlock(world, testPos)) {
+    private static int findSurfaceY(ServerLevel level, BlockPos pos) {
+        int y = level.getMaxBuildHeight() - 1;
+        while (y > level.getMinBuildHeight()) {
+            BlockPos testPos = pos.atY(y);
+            if (level.getBlockState(testPos).isSolidRender(level, testPos)) {
                 return y;
             }
             y--;
         }
-        return world.getBottomY() + 10;
+        return level.getMinBuildHeight() + 10;
     }
 
-    private static void createPlatform(ServerWorld world, BlockPos origin) {
+    private static void createPlatform(ServerLevel level, BlockPos origin) {
+        BlockState bedrock = Blocks.BEDROCK.defaultBlockState();
+        BlockState air = Blocks.AIR.defaultBlockState();
         for (int x = -5; x <= 5; x++) {
             for (int z = -5; z <= 5; z++) {
-                world.setBlockState(origin.add(x, 0, z), Blocks.BEDROCK.getDefaultState());
-                world.setBlockState(origin.add(x, 1, z), Blocks.AIR.getDefaultState());
+                level.setBlock(origin.offset(x, 0, z), bedrock, 3);
+                level.setBlock(origin.offset(x, 1, z), air, 3);
             }
         }
     }

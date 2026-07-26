@@ -1,57 +1,50 @@
 package com.uncannyvoxel.test.gametest;
 
-import com.uncannyvoxel.UncannyVoxelMod;
-import com.uncannyvoxel.registry.ModDimensions;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.test.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import com.uncannyvoxel.registry.ModBlocks;
+import com.uncannyvoxel.registry.ModTags;
+import com.uncannyvoxel.portal.PortalFrameValidator;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
+import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.world.level.block.Blocks;
 
-public class UncannyPortalGameTest implements FabricGameTest {
+public class UncannyPortalGameTest {
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void portalFrameValidates(TestContext context) {
+    @GameTest(template = "fabric-gametest-api-v1:empty")
+    public void portalFrameValidates(GameTestHelper helper) {
         BlockPos center = new BlockPos(1, 2, 1);
 
-        // Build frame: tinted glass ring + sulfur glass mirror center
-        context.setBlockState(center, com.uncannyvoxel.registry.ModBlocks.SULFUR_GLASS_MIRROR.getDefaultState());
-        for (BlockPos offset : com.uncannyvoxel.portal.PortalFrameValidator.RING) {
-            context.setBlockState(center.add(offset), net.minecraft.block.Blocks.TINTED_GLASS.getDefaultState());
+        helper.setBlock(center, ModBlocks.SULFUR_GLASS_MIRROR.defaultBlockState());
+        for (BlockPos offset : PortalFrameValidator.RING) {
+            helper.setBlock(center.offset(offset), Blocks.TINTED_GLASS.defaultBlockState());
         }
 
-        // Validate
-        boolean valid = com.uncannyvoxel.portal.PortalFrameValidator.isValid(
-                context.getWorld(),
+        boolean valid = PortalFrameValidator.isValid(
+                helper.getLevel(),
                 center,
-                state -> state.isIn(com.uncannyvoxel.registry.ModTags.SUBSTRATE_FRAME),
-                state -> state.isOf(com.uncannyvoxel.registry.ModBlocks.SULFUR_GLASS_MIRROR)
+                state -> state.is(ModTags.SUBSTRATE_FRAME),
+                state -> state.is(ModBlocks.SULFUR_GLASS_MIRROR)
         );
 
-        context.assertTrue(valid, "Portal frame should be valid with sulfur glass mirror center and tinted glass ring");
-        context.complete();
+        helper.assertTrue(valid, "Portal frame should be valid with sulfur glass mirror center and tinted glass ring");
+        helper.succeed();
     }
 
-    @GameTest(templateName = FabricGameTest.EMPTY_STRUCTURE)
-    public void portalInvalidFrameFails(TestContext context) {
+    @GameTest(template = "fabric-gametest-api-v1:empty")
+    public void portalInvalidFrameFails(GameTestHelper helper) {
         BlockPos center = new BlockPos(1, 2, 1);
 
-        // Build incomplete frame
-        context.setBlockState(center, com.uncannyvoxel.registry.ModBlocks.SULFUR_GLASS_MIRROR.getDefaultState());
-        context.setBlockState(center.add(com.uncannyvoxel.portal.PortalFrameValidator.RING[0]),
-                net.minecraft.block.Blocks.AIR.getDefaultState());
+        helper.setBlock(center, ModBlocks.SULFUR_GLASS_MIRROR.defaultBlockState());
+        helper.setBlock(center.offset(PortalFrameValidator.RING[0]), Blocks.AIR.defaultBlockState());
 
-        boolean valid = com.uncannyvoxel.portal.PortalFrameValidator.isValid(
-                context.getWorld(),
+        boolean valid = PortalFrameValidator.isValid(
+                helper.getLevel(),
                 center,
-                state -> state.isIn(com.uncannyvoxel.registry.ModTags.SUBSTRATE_FRAME),
-                state -> state.isOf(com.uncannyvoxel.registry.ModBlocks.SULFUR_GLASS_MIRROR)
+                state -> state.is(ModTags.SUBSTRATE_FRAME),
+                state -> state.is(ModBlocks.SULFUR_GLASS_MIRROR)
         );
 
-        context.assertFalse(valid, "Portal frame should be invalid with missing ring block");
-        context.complete();
+        helper.assertFalse(valid, "Portal frame should be invalid with missing ring block");
+        helper.succeed();
     }
 }

@@ -1,7 +1,6 @@
 package com.uncannyvoxel.entity;
 
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.world.entity.ai.goal.Goal;
 
 import java.util.EnumSet;
 
@@ -11,11 +10,11 @@ public class MimicSlideSkinGoal extends Goal {
 
     public MimicSlideSkinGoal(MimicEntity mimic) {
         this.mimic = mimic;
-        this.setControls(EnumSet.of());
+        this.setFlags(EnumSet.of());
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         return mimic.isSlidingSkin();
     }
 

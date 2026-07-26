@@ -1,8 +1,5 @@
 package com.uncannyvoxel.ci;
 
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resource.ResourceManager;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -18,7 +15,6 @@ public class ValidateResources {
 
         int errors = 0;
 
-        // Check required files
         Path fabricModJson = resourcesDir.resolve("fabric.mod.json");
         if (!Files.exists(fabricModJson)) {
             System.err.println("Missing fabric.mod.json");
@@ -37,14 +33,11 @@ public class ValidateResources {
             errors++;
         }
 
-        // Check data directories
         checkDir(resourcesDir.resolve("data/uncannyvoxel/tags/block"), "substrate_frame.json", "sulfur_blocks.json");
         checkDir(resourcesDir.resolve("data/uncannyvoxel/dimension"), "substrate.json");
         checkDir(resourcesDir.resolve("data/uncannyvoxel/dimension_type"), "substrate_type.json");
         checkDir(resourcesDir.resolve("data/uncannyvoxel/worldgen/biome"), "substrate_hall.json");
         checkDir(resourcesDir.resolve("data/uncannyvoxel/worldgen/structure"), "flesh_farm.json", "weeping_monolith.json");
-
-        // Check asset directories
         checkDir(resourcesDir.resolve("assets/uncannyvoxel/lang"), "en_us.json");
         checkDir(resourcesDir.resolve("assets/uncannyvoxel/blockstates"), "sulfur_glass_mirror.json", "rusted_grate.json", "compacted_hair.json", "chest_mimic.json", "tether_stake.json");
         checkDir(resourcesDir.resolve("assets/uncannyvoxel/models/block"), "sulfur_glass_mirror.json", "rusted_grate.json", "compacted_hair.json", "chest_mimic.json", "tether_stake.json");

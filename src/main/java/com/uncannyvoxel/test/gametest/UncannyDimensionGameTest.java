@@ -2,31 +2,35 @@ package com.uncannyvoxel.test.gametest;
 
 import com.uncannyvoxel.registry.ModDimensions;
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
-import net.minecraft.test.TestContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.gametest.framework.GameTestHelper;
+import net.minecraft.server.level.ServerLevel;
 
 public class UncannyDimensionGameTest {
 
-    @GameTest(templateName = "empty")
-    public void substrateDimensionExists(TestContext context) {
-        var substrateKey = ModDimensions.SUBSTRATE;
+    @GameTest(template = "fabric-gametest-api-v1:empty")
+    public void substrateDimensionExists(GameTestHelper helper) {
+        ServerLevel overworld = helper.getLevel();
+        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
 
-        World substrate = context.getWorld().getServer().getWorld(substrateKey);
-
-        context.assertNotNull(substrate, "Substrate dimension should be registered and loadable");
-        context.complete();
+        helper.assertTrue(substrate != null, "Substrate dimension should be registered and loadable");
+        helper.succeed();
     }
 
-    @GameTest(templateName = "empty")
-    public void substrateChunkGenerationDoesNotCrash(TestContext context) {
-        World substrate = context.getWorld().getServer().getWorld(ModDimensions.SUBSTRATE);
+    @GameTest(template = "fabric-gametest-api-v1:empty")
+    public void substrateChunkGenerationDoesNotCrash(GameTestHelper helper) {
+        ServerLevel overworld = helper.getLevel();
+        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
 
-        // Generate a few chunks
+        if (substrate == null) {
+            helper.fail("Substrate dimension not loaded");
+            return;
+        }
+
         BlockPos pos = new BlockPos(100, 64, 100);
         substrate.getChunk(pos);
 
-        context.assertTrue(substrate.getChunk(pos).isReady(), "Substrate chunk should generate without crashing");
-        context.complete();
+        helper.assertTrue(substrate.getChunk(pos).isReady(), "Substrate chunk should generate without crashing");
+        helper.succeed();
     }
 }

@@ -2,7 +2,7 @@ package com.uncannyvoxel.mixin.client;
 
 import com.uncannyvoxel.horror.BlinkScheduler;
 import com.uncannyvoxel.horror.UncannyRenderBridge;
-import net.minecraft.client.render.GameRenderer;
+import net.minecraft.client.renderer.GameRenderer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,11 +16,10 @@ public class GameRendererMixin {
         at = @At("TAIL")
     )
     private void uncanny$renderBlinkOverlay(CallbackInfo ci) {
-        UncannyRenderBridge.loadShaders(net.minecraft.client.MinecraftClient.getInstance());
-        
-        BlinkScheduler scheduler = BlinkScheduler.getInstance();
-        if (scheduler.isBlinkActive()) {
-            float progress = scheduler.getBlinkProgress(net.minecraft.client.MinecraftClient.getInstance());
+        UncannyRenderBridge.loadShaders(net.minecraft.client.Minecraft.getInstance());
+
+        if (BlinkScheduler.isBlinkActive()) {
+            float progress = BlinkScheduler.getBlinkProgress(net.minecraft.client.Minecraft.getInstance());
             UncannyRenderBridge.updateBlinkIntensity(progress);
         }
     }

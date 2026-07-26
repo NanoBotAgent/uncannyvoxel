@@ -1,22 +1,23 @@
 package com.uncannyvoxel.audio;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.sound.PositionedSoundInstance;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.player.LocalPlayer;
+import net.minecraft.client.sounds.SoundManager;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.phys.Vec3;
+
+import java.util.Random;
 
 public class BinauralWhisperController {
-    private static final Random RANDOM = Random.create();
+    private static final Random RANDOM = new Random();
 
     private boolean active = false;
     private long nextWhisperTime = 0;
     private int whisperStage = 0;
-    private Vec3d whisperPosition = Vec3d.ZERO;
+    private Vec3 whisperPosition = Vec3.ZERO;
 
-    public void tick(PlayerEntity player) {
+    public void tick(LocalPlayer player) {
         if (!HorrorConfig.isHorrorEnabled() || !HorrorConfig.get().audioEnabled) return;
 
         long now = System.currentTimeMillis();
@@ -28,11 +29,11 @@ public class BinauralWhisperController {
             }
         } else {
             boolean shouldActivate = RANDOM.nextFloat() < 0.0002f ||
-                    player.getWorld().getLightLevel(player.getBlockPos()) < 3;
+                    player.level().getMaxLocalRawBrightness(player.blockPosition()) < 3;
 
             if (shouldActivate) {
                 active = true;
-                whisperPosition = new Vec3d(
+                whisperPosition = new Vec3(
                     player.getX() + (RANDOM.nextDouble() - 0.5) * 4,
                     player.getY() + RANDOM.nextDouble() * 2,
                     player.getZ() + (RANDOM.nextDouble() - 0.5) * 4
@@ -42,35 +43,28 @@ public class BinauralWhisperController {
         }
     }
 
-    private void playWhisper(PlayerEntity player) {
+    private void playWhisper(LocalPlayer player) {
         float volume = HorrorConfig.getGlitchVolume() * 0.3f;
         if (volume <= 0) return;
 
-        int soundIndex = RANDOM.nextInt(3);
-        // Use different whisper sounds
-        SoundEvent whisperSound = switch (soundIndex) {
-            case 0 -> com.uncannyvoxel.registry.ModSoundEvents.BINAURAL_WHISPER;
-            case 1 -> com.uncannyvoxel.registry.ModSoundEvents.BINAURAL_WHISPER;
-            default -> com.uncannyvoxel.registry.ModSoundEvents.BINAURAL_WHISPER;
-        };
-
-        SoundInstance sound = PositionedSoundInstance.master(
-            whisperSound,
-            volume,
-            0.8f + RANDOM.nextFloat() * 0.4f,
-            whisperPosition.x, whisperPosition.y, whisperPosition.z
+        Minecraft.getInstance().getSoundManager().play(
+            net.minecraft.client.sounds.SimpleSoundInstance.forUI(
+                com.uncannyvoxel.registry.ModSoundEvents.BINAURAL_WHISPER,
+                0.8f + RANDOM.nextFloat() * 0.4f,
+                volume
+            )
         );
-        MinecraftClient.getInstance().getSoundManager().play(sound);
 
-        // Move whisper position slightly
-        whisperPosition = new Vec3d(
+        whisperPosition = new Vec3(
             whisperPosition.x + (RANDOM.nextDouble() - 0.5) * 2,
             whisperPosition.y + (RANDOM.nextDouble() - 0.5) * 1,
             whisperPosition.z + (RANDOM.nextDouble() - 0.5) * 2
         );
+
+        whisperStage++;
     }
 
-    public void activate(Vec3d position) {
+    public void activate(Vec3 position) {
         active = true;
         whisperPosition = position;
         nextWhisperTime = System.currentTimeMillis() + 500;

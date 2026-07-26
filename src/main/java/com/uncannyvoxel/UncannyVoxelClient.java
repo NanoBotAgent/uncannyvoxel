@@ -2,7 +2,6 @@ package com.uncannyvoxel;
 
 import com.uncannyvoxel.audio.ClientAudioDirector;
 import com.uncannyvoxel.horror.BlinkScheduler;
-import com.uncannyvoxel.horror.NameCorruptor;
 import com.uncannyvoxel.horror.VantablackChunkManager;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
@@ -22,10 +21,9 @@ public class UncannyVoxelClient implements ClientModInitializer {
         ClientAudioDirector.init();
         BlinkScheduler.init();
         VantablackChunkManager.init();
-        NameCorruptor.init();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            if (client.player != null && client.world != null) {
+            if (client.player != null && client.level != null) {
                 ClientAudioDirector.tick(client);
                 BlinkScheduler.tick(client);
             }

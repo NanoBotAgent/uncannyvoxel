@@ -1,7 +1,7 @@
 package com.uncannyvoxel.test;
 
 import com.uncannyvoxel.horror.DreadModel;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,7 +1,7 @@
 package com.uncannyvoxel.mixin.client;
 
 import com.uncannyvoxel.horror.UncannyRenderBridge;
-import net.minecraft.client.render.Camera;
+import net.minecraft.client.Camera;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -15,7 +15,5 @@ public class CameraMixin {
         at = @At("TAIL")
     )
     private void uncanny$updateDepthOfFieldDread(CallbackInfo ci) {
-        // Update depth of field dread based on entity behind player
-        // UncannyRenderBridge.setDreadIntensity(...)
     }
 }

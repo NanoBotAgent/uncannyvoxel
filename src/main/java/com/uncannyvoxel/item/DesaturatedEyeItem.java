@@ -1,46 +1,44 @@
 package com.uncannyvoxel.item;
 
 import com.uncannyvoxel.registry.ModSoundEvents;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.Level;
 
 public class DesaturatedEyeItem extends Item {
 
-    public DesaturatedEyeItem(Settings settings) {
-        super(settings);
+    public DesaturatedEyeItem(Properties properties) {
+        super(properties);
     }
 
     @Override
-    public ActionResult use(World world, PlayerEntity player, Hand hand) {
-        ItemStack stack = player.getStackInHand(hand);
-        if (!world.isClient && world instanceof ServerWorld serverWorld) {
-            BlockPos pos = player.getBlockPos();
-            com.uncannyvoxel.portal.PortalController.tryActivate(serverWorld, pos, player);
+    public InteractionResult use(Level level, Player player, InteractionHand hand) {
+        ItemStack stack = player.getItemInHand(hand);
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
+            BlockPos pos = player.blockPosition();
+            com.uncannyvoxel.portal.PortalController.tryActivate(serverLevel, pos, (ServerPlayer) player);
         }
-        return ActionResult.success(world.isClient());
+        return InteractionResult.success(level.isClientSide());
     }
 
     @Override
-    public ActionResult useOnBlock(ItemUsageContext context) {
-        World world = context.getWorld();
-        if (!world.isClient && world instanceof ServerWorld serverWorld) {
-            ServerPlayerEntity player = (ServerPlayerEntity) context.getPlayer();
+    public InteractionResult useOn(UseOnContext context) {
+        Level level = context.getLevel();
+        if (!level.isClientSide() && level instanceof ServerLevel serverLevel) {
+            ServerPlayer player = (ServerPlayer) context.getPlayer();
             if (player != null) {
-                com.uncannyvoxel.portal.PortalController.tryActivate(serverWorld, context.getBlockPos(), player);
-                return ActionResult.SUCCESS;
+                com.uncannyvoxel.portal.PortalController.tryActivate(serverLevel, context.getClickedPos(), player);
+                return InteractionResult.SUCCESS;
             }
         }
-        return ActionResult.PASS;
+        return InteractionResult.PASS;
     }
 }

@@ -1,11 +1,10 @@
 package com.uncannyvoxel.test;
 
 import com.uncannyvoxel.portal.PortalFrameValidator;
-import com.uncannyvoxel.portal.ActivationDecision;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.BlockGetter;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -17,17 +16,17 @@ class PortalFrameValidatorTest {
 
     @Test
     void validFramePasses() {
-        BlockView world = Mockito.mock(BlockView.class);
+        BlockGetter world = Mockito.mock(BlockGetter.class);
         BlockPos center = new BlockPos(0, 0, 0);
 
-        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.getDefaultState());
+        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         for (BlockPos offset : PortalFrameValidator.RING) {
             Mockito.when(world.getBlockState(center.add(offset)))
-                    .thenReturn(Blocks.TINTED_GLASS.getDefaultState());
+                    .thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         }
 
-        Predicate<BlockState> framePredicate = state -> state.isOf(Blocks.TINTED_GLASS);
-        Predicate<BlockState> centerPredicate = state -> state.isOf(Blocks.TINTED_GLASS);
+        Predicate<BlockState> framePredicate = state -> state.is(Blocks.TINTED_GLASS);
+        Predicate<BlockState> centerPredicate = state -> state.is(Blocks.TINTED_GLASS);
 
         boolean result = PortalFrameValidator.isValid(world, center, framePredicate, centerPredicate);
 
@@ -36,20 +35,19 @@ class PortalFrameValidatorTest {
 
     @Test
     void missingRingBlockFails() {
-        BlockView world = Mockito.mock(BlockView.class);
+        BlockGetter world = Mockito.mock(BlockGetter.class);
         BlockPos center = new BlockPos(0, 0, 0);
 
-        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.getDefaultState());
+        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         for (BlockPos offset : PortalFrameValidator.RING) {
             Mockito.when(world.getBlockState(center.add(offset)))
-                    .thenReturn(Blocks.TINTED_GLASS.getDefaultState());
+                    .thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         }
-        // Make one block air
         Mockito.when(world.getBlockState(center.add(PortalFrameValidator.RING[0])))
-                .thenReturn(Blocks.AIR.getDefaultState());
+                .thenReturn(Blocks.AIR.defaultBlockState());
 
-        Predicate<BlockState> framePredicate = state -> state.isOf(Blocks.TINTED_GLASS);
-        Predicate<BlockState> centerPredicate = state -> state.isOf(Blocks.TINTED_GLASS);
+        Predicate<BlockState> framePredicate = state -> state.is(Blocks.TINTED_GLASS);
+        Predicate<BlockState> centerPredicate = state -> state.is(Blocks.TINTED_GLASS);
 
         boolean result = PortalFrameValidator.isValid(world, center, framePredicate, centerPredicate);
 
@@ -58,13 +56,13 @@ class PortalFrameValidatorTest {
 
     @Test
     void invalidCenterFails() {
-        BlockView world = Mockito.mock(BlockView.class);
+        BlockGetter world = Mockito.mock(BlockGetter.class);
         BlockPos center = new BlockPos(0, 0, 0);
 
-        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.AIR.getDefaultState());
+        Mockito.when(world.getBlockState(center)).thenReturn(Blocks.AIR.defaultBlockState());
 
-        Predicate<BlockState> framePredicate = state -> state.isOf(Blocks.TINTED_GLASS);
-        Predicate<BlockState> centerPredicate = state -> state.isOf(Blocks.TINTED_GLASS);
+        Predicate<BlockState> framePredicate = state -> state.is(Blocks.TINTED_GLASS);
+        Predicate<BlockState> centerPredicate = state -> state.is(Blocks.TINTED_GLASS);
 
         boolean result = PortalFrameValidator.isValid(world, center, framePredicate, centerPredicate);
 

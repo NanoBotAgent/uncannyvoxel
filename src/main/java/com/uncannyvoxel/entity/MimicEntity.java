@@ -1,91 +1,98 @@
 package com.uncannyvoxel.entity;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import com.uncannyvoxel.registry.ModEntities;
-import com.uncannyvoxel.registry.ModSoundEvents;
-import net.minecraft.entity.*;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.attribute.DefaultAttributeContainer;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.data.DataTracker;
-import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.data.TrackedDataHandlerRegistry;
-import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.particle.ParticleTypes;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.PathfinderMob;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.goal.FloatGoal;
+import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
+import net.minecraft.world.entity.ai.goal.RandomLookAroundGoal;
+import net.minecraft.world.entity.ai.goal.RandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.ServerLevel;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.network.syncher.EntityDataAccessor;
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.nbt.CompoundTag;
 
 import java.util.Random;
-import java.util.EnumSet;
 
-public class MimicEntity extends PathAwareEntity {
+public class MimicEntity extends PathfinderMob {
 
-    private static final TrackedData<Boolean> SLIDING_SKIN = DataTracker.registerData(MimicEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-    private static final TrackedData<Integer> STUTTER_COOLDOWN = DataTracker.registerData(MimicEntity.class, TrackedDataHandlerRegistry.INTEGER);
+    private static final EntityDataAccessor<Boolean> SLIDING_SKIN =
+            SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.BOOLEAN);
+    private static final EntityDataAccessor<Integer> STUTTER_COOLDOWN =
+            SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.INTEGER);
 
     private int slideSkinTicks = 0;
     private int stutterTicks = 0;
     private int headRotationTicks = 0;
     private final Random random = new Random();
 
-    public MimicEntity(EntityType<? extends PathAwareEntity> type, World world) {
-        super(type, world);
-        this.experiencePoints = 50;
+    public MimicEntity(EntityType<? extends PathfinderMob> type, Level level) {
+        super(type, level);
     }
 
-    public static DefaultAttributeContainer.Builder createAttributes() {
-        return MobEntity.createMobAttributes()
-                .add(EntityAttributes.GENERIC_MAX_HEALTH, 40.0)
-                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.25)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 8.0)
-                .add(EntityAttributes.GENERIC_FOLLOW_RANGE, 48.0)
-                .add(EntityAttributes.GENERIC_ARMOR, 4.0)
-                .add(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, 0.5);
-    }
-
-    @Override
-    protected void initGoals() {
-        this.goalSelector.add(1, new SwimGoal(this));
-        this.goalSelector.add(2, new MimicStutterStepGoal(this));
-        this.goalSelector.add(3, new MimicHeadRotationGoal(this));
-        this.goalSelector.add(4, new MeleeAttackGoal(this, 1.0, false));
-        this.goalSelector.add(5, new WanderAroundFarGoal(this, 0.2));
-        this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 16.0f));
-        this.goalSelector.add(7, new LookAroundGoal(this));
-
-        this.targetSelector.add(1, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
-        this.targetSelector.add(2, new RevengeGoal(this));
+    public static AttributeSupplier.Builder createAttributes() {
+        return Mob.createMobAttributes()
+                .add(Attributes.MAX_HEALTH, 40.0)
+                .add(Attributes.MOVEMENT_SPEED, 0.25)
+                .add(Attributes.ATTACK_DAMAGE, 8.0)
+                .add(Attributes.FOLLOW_RANGE, 48.0)
+                .add(Attributes.ARMOR, 4.0)
+                .add(Attributes.KNOCKBACK_RESISTANCE, 0.5);
     }
 
     @Override
-    protected void initDataTracker(DataTracker.Builder builder) {
-        super.initDataTracker(builder);
-        builder.add(SLIDING_SKIN, false);
-        builder.add(STUTTER_COOLDOWN, 0);
+    protected void registerGoals() {
+        this.goalSelector.addGoal(1, new FloatGoal(this));
+        this.goalSelector.addGoal(2, new MimicStutterStepGoal(this));
+        this.goalSelector.addGoal(3, new MimicHeadRotationGoal(this));
+        this.goalSelector.addGoal(4, new MeleeAttackGoal(this, 1.0, false));
+        this.goalSelector.addGoal(5, new RandomStrollGoal(this, 0.2));
+        this.goalSelector.addGoal(6, new LookAtPlayerGoal(this, Player.class, 16.0f));
+        this.goalSelector.addGoal(7, new RandomLookAroundGoal(this));
+
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.targetSelector.addGoal(2, new HurtByTargetGoal(this));
+    }
+
+    @Override
+    protected void defineSynchedData(SynchedEntityData.Builder builder) {
+        super.defineSynchedData(builder);
+        builder.define(SLIDING_SKIN, false);
+        builder.define(STUTTER_COOLDOWN, 0);
     }
 
     public boolean isSlidingSkin() {
-        return this.dataTracker.get(SLIDING_SKIN);
+        return this.getEntityData().get(SLIDING_SKIN);
     }
 
     public void setSlidingSkin(boolean sliding) {
-        this.dataTracker.set(SLIDING_SKIN, sliding);
+        this.getEntityData().set(SLIDING_SKIN, sliding);
+    }
+
+    public void triggerStutterStep() {
+        stutterTicks = 20 + random.nextInt(20);
+    }
+
+    public void triggerHeadRotation(int ticks) {
+        headRotationTicks = ticks;
     }
 
     @Override
     public void tick() {
         super.tick();
 
-        if (this.world.isClient) {
+        if (this.level().isClientSide) {
             if (isSlidingSkin()) {
                 slideSkinClientTick();
             }
@@ -96,7 +103,6 @@ public class MimicEntity extends PathAwareEntity {
                 headRotationClientTick();
             }
         } else {
-            // Server-side logic
             if (slideSkinTicks > 0) {
                 slideSkinTicks--;
                 if (slideSkinTicks == 0) {
@@ -104,27 +110,23 @@ public class MimicEntity extends PathAwareEntity {
                 }
             }
 
-            if (this.dataTracker.get(STUTTER_COOLDOWN) > 0) {
-                this.dataTracker.set(STUTTER_COOLDOWN, this.dataTracker.get(STUTTER_COOLDOWN) - 1);
+            if (this.getEntityData().get(STUTTER_COOLDOWN) > 0) {
+                this.getEntityData().set(STUTTER_COOLDOWN, this.getEntityData().get(STUTTER_COOLDOWN) - 1);
             }
         }
     }
 
     @Override
-    public boolean damage(ServerWorld world, DamageSource source, float amount) {
-        boolean damaged = super.damage(world, source, amount);
+    public void hurt(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
+        super.hurt(level, source, amount);
 
-        if (damaged && !this.world.isClient && HorrorConfig.get().horrorEnabled) {
-            // Trigger sliding skin animation on damage
+        if (!this.level().isClientSide && HorrorConfig.get().horrorEnabled) {
             setSlidingSkin(true);
             slideSkinTicks = 60 + random.nextInt(60);
         }
-
-        return damaged;
     }
 
     private void slideSkinClientTick() {
-        // Client-side sliding skin animation
     }
 
     private void stutterClientTick() {
@@ -133,10 +135,5 @@ public class MimicEntity extends PathAwareEntity {
 
     private void headRotationClientTick() {
         headRotationTicks--;
-    }
-
-    @Override
-    protected void initCustomGoals() {
-        // Custom goals can be added here
     }
 }

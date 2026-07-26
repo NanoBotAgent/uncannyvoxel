@@ -1,20 +1,20 @@
 package com.uncannyvoxel.registry;
 
-import net.minecraft.block.Block;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.level.block.Block;
 
 public final class ModTags {
 
     public static final TagKey<Block> SUBSTRATE_FRAME =
-            TagKey.of(RegistryKeys.BLOCK, Identifier.of("uncannyvoxel", "substrate_frame"));
+            TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "substrate_frame"));
 
     public static final TagKey<Block> SULFUR_BLOCKS =
-            TagKey.of(RegistryKeys.BLOCK, Identifier.of("uncannyvoxel", "sulfur_blocks"));
+            TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "sulfur_blocks"));
 
     public static final TagKey<Block> SULFUR_GEYSERS =
-            TagKey.of(RegistryKeys.BLOCK, Identifier.of("uncannyvoxel", "sulfur_geysers"));
+            TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "sulfur_geysers"));
 
     private ModTags() {}
 }

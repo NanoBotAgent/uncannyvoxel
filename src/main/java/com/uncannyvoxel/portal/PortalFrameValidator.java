@@ -1,8 +1,8 @@
 package com.uncannyvoxel.portal;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.BlockView;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.function.Predicate;
 
@@ -22,7 +22,7 @@ public final class PortalFrameValidator {
     private PortalFrameValidator() {}
 
     public static boolean isValid(
-            BlockView world,
+            BlockGetter world,
             BlockPos center,
             Predicate<BlockState> ringPredicate,
             Predicate<BlockState> centerPredicate

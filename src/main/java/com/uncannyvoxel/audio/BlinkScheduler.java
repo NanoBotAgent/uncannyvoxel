@@ -1,10 +1,10 @@
 package com.uncannyvoxel.audio;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.util.math.random.Random;
+import java.util.Random;
 
 public class BlinkScheduler {
-    private static final Random RANDOM = Random.create();
+    private static final Random RANDOM = new Random();
 
     private long lastBlink = 0;
     private boolean blinking = false;

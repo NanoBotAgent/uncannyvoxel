@@ -1,11 +1,13 @@
 package com.uncannyvoxel.registry;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.core.Registry;
 
 public final class ModSoundEvents {
+
+    public static final String MOD_ID = "uncannyvoxel";
 
     public static final SoundEvent WET_TEARING = register("wet_tearing");
     public static final SoundEvent BLINK_TRIGGER = register("blink_trigger");
@@ -19,8 +21,8 @@ public final class ModSoundEvents {
     public static final SoundEvent MIMIC_VOICE = register("mimic_voice");
 
     private static SoundEvent register(String name) {
-        Identifier id = Identifier.of("uncannyvoxel", name);
-        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
     public static void init() {}

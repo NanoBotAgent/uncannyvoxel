@@ -1,7 +1,7 @@
 package com.uncannyvoxel.horror;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.Minecraft;
 
 public final class BlinkScheduler {
 
@@ -19,12 +19,12 @@ public final class BlinkScheduler {
         blinkDurationTicks = 0;
     }
 
-    public static void tick(MinecraftClient client) {
+    public static void tick(Minecraft client) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().blinkEnabled) {
             return;
         }
 
-        long currentTick = client.world != null ? client.world.getTime() : 0;
+        long currentTick = client.level != null ? client.level.getGameTime() : 0;
 
         if (blinkActive) {
             if (currentTick >= lastBlinkTick + blinkDurationTicks) {
@@ -43,26 +43,26 @@ public final class BlinkScheduler {
         }
     }
 
-    private static void scheduleNextBlink(MinecraftClient client) {
+    private static void scheduleNextBlink(Minecraft client) {
         HorrorConfig config = HorrorConfig.get();
         int minCooldown = config.photosensitivitySafeMode ? 2400 : config.blinkMinCooldownTicks;
         int maxCooldown = config.blinkMaxCooldownTicks;
 
         int cooldown = minCooldown + client.player.getRandom().nextInt(maxCooldown - minCooldown + 1);
-        nextBlinkTick = (client.world != null ? client.world.getTime() : 0) + cooldown;
+        nextBlinkTick = (client.level != null ? client.level.getGameTime() : 0) + cooldown;
     }
 
-    private static void triggerBlink(MinecraftClient client) {
+    private static void triggerBlink(Minecraft client) {
         HorrorConfig config = HorrorConfig.get();
         blinkDurationTicks = Math.min(config.blinkDurationTicks, config.photosensitivitySafeMode ? 10 : config.blinkDurationTicks);
-        lastBlinkTick = client.world != null ? client.world.getTime() : 0;
+        lastBlinkTick = client.level != null ? client.level.getGameTime() : 0;
         blinkActive = true;
         nextBlinkTick = -1;
 
         UncannyRenderBridge.triggerBlink(client);
     }
 
-    private static void endBlink(MinecraftClient client) {
+    private static void endBlink(Minecraft client) {
         blinkActive = false;
         UncannyRenderBridge.endBlink(client);
         scheduleNextBlink(client);
@@ -72,9 +72,9 @@ public final class BlinkScheduler {
         return blinkActive;
     }
 
-    public static float getBlinkProgress(MinecraftClient client) {
+    public static float getBlinkProgress(Minecraft client) {
         if (!blinkActive) return 0.0f;
-        long currentTick = client.world != null ? client.world.getTime() : 0;
+        long currentTick = client.level != null ? client.level.getGameTime() : 0;
         return Math.min(1.0f, (float)(currentTick - lastBlinkTick) / blinkDurationTicks);
     }
 

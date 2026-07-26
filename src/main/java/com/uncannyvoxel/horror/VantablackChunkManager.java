@@ -1,8 +1,8 @@
 package com.uncannyvoxel.horror;
 
 import com.uncannyvoxel.config.HorrorConfig;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.ChunkPos;
 
 import java.util.HashMap;
 import java.util.Map;

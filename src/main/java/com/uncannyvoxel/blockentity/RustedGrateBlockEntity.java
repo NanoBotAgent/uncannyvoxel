@@ -1,9 +1,10 @@
 package com.uncannyvoxel.blockentity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class RustedGrateBlockEntity extends BlockEntity {
 
@@ -13,10 +14,10 @@ public class RustedGrateBlockEntity extends BlockEntity {
         super(com.uncannyvoxel.registry.ModBlockEntities.RUSTED_GRATE, pos, state);
     }
 
-    public static void tick(net.minecraft.server.world.ServerWorld world, BlockPos pos, BlockState state, RustedGrateBlockEntity entity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, RustedGrateBlockEntity entity) {
         if (entity.humLevel < 100) {
             entity.humLevel++;
-            entity.markDirty();
+            entity.setChanged();
         }
     }
 
@@ -25,14 +26,14 @@ public class RustedGrateBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        nbt.putInt("humLevel", humLevel);
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("humLevel", humLevel);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        humLevel = nbt.getInt("humLevel");
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        humLevel = tag.getInt("humLevel");
     }
 }

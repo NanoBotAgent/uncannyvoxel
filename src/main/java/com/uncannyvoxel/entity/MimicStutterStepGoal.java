@@ -1,26 +1,25 @@
 package com.uncannyvoxel.entity;
 
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.Goal;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.goal.Goal;
+import net.minecraft.world.entity.PathfinderMob;
 
 import java.util.EnumSet;
 import java.util.Random;
 
 public class MimicStutterStepGoal extends Goal {
 
-    private final PathAwareEntity mimic;
+    private final PathfinderMob mimic;
     private final Random random = new Random();
     private int cooldown = 0;
 
-    public MimicStutterStepGoal(PathAwareEntity mimic) {
+    public MimicStutterStepGoal(PathfinderMob mimic) {
         this.mimic = mimic;
-        this.setControls(EnumSet.of(Control.MOVE));
+        this.setFlags(EnumSet.of(Flag.MOVE));
     }
 
     @Override
-    public boolean canStart() {
+    public boolean canUse() {
         if (cooldown > 0) {
             cooldown--;
             return false;
@@ -29,8 +28,7 @@ public class MimicStutterStepGoal extends Goal {
         LivingEntity target = mimic.getTarget();
         if (target == null) return false;
 
-        // 5% chance per tick when target is in range
-        if (mimic.distanceTo(target) < 16.0 && random.nextFloat() < 0.05f) {
+        if (mimic.distanceToSqr(target) < 256.0 && random.nextFloat() < 0.05f) {
             return true;
         }
 
@@ -42,6 +40,6 @@ public class MimicStutterStepGoal extends Goal {
         if (mimic instanceof MimicEntity mimicEntity) {
             mimicEntity.triggerStutterStep();
         }
-        cooldown = 100 + random.nextInt(200); // 5-15 seconds
+        cooldown = 100 + random.nextInt(200);
     }
 }

@@ -1,9 +1,10 @@
 package com.uncannyvoxel.blockentity;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.Level;
 
 public class CompactedHairBlockEntity extends BlockEntity {
 
@@ -13,10 +14,10 @@ public class CompactedHairBlockEntity extends BlockEntity {
         super(com.uncannyvoxel.registry.ModBlockEntities.COMPACTED_HAIR, pos, state);
     }
 
-    public static void tick(net.minecraft.server.world.ServerWorld world, BlockPos pos, BlockState state, CompactedHairBlockEntity entity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, CompactedHairBlockEntity entity) {
         entity.pulsePhase = (entity.pulsePhase + 1) % 200;
         if (entity.pulsePhase % 20 == 0) {
-            entity.markDirty();
+            entity.setChanged();
         }
     }
 
@@ -25,14 +26,14 @@ public class CompactedHairBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void writeNbt(NbtCompound nbt) {
-        super.writeNbt(nbt);
-        nbt.putInt("pulsePhase", pulsePhase);
+    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("pulsePhase", pulsePhase);
     }
 
     @Override
-    public void readNbt(NbtCompound nbt) {
-        super.readNbt(nbt);
-        pulsePhase = nbt.getInt("pulsePhase");
+    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        pulsePhase = tag.getInt("pulsePhase");
     }
 }
