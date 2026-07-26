@@ -13,6 +13,7 @@ repositories {
 
 loom {
     splitEnvironmentSourceSets()
+    officialMojangMappings()
 
     mods {
         "uncannyvoxel" {
