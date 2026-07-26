@@ -120,7 +120,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        mimicCooldown = tag.getInt("mimicCooldown");
-        mimicTriggered = tag.getBoolean("mimicTriggered");
+        mimicCooldown = tag.getInt("mimicCooldown").orElse(0);
+        mimicTriggered = tag.getBoolean("mimicTriggered").orElse(false);
     }
 }

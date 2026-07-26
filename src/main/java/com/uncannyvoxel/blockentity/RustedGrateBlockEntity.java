@@ -35,6 +35,6 @@ public class RustedGrateBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        humLevel = tag.getInt("humLevel");
+        humLevel = tag.getInt("humLevel").orElse(0);
     }
 }

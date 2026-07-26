@@ -27,8 +27,8 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        portalActive = tag.getBoolean("portalActive");
-        activationCooldown = tag.getInt("activationCooldown");
+        portalActive = tag.getBoolean("portalActive").orElse(false);
+        activationCooldown = tag.getInt("activationCooldown").orElse(0);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SulfurGlassMirrorBlockEntity entity) {

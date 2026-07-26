@@ -108,8 +108,8 @@ public class TetherStakeBlockEntity extends BlockEntity {
         if (tag.hasUUID("owner")) {
             ownerUuid = tag.getUUID("owner");
         }
-        radius = tag.getInt("radius");
-        active = tag.getBoolean("active");
-        cooldown = tag.getInt("cooldown");
+        radius = tag.getInt("radius").orElse(5);
+        active = tag.getBoolean("active").orElse(false);
+        cooldown = tag.getInt("cooldown").orElse(0);
     }
 }
