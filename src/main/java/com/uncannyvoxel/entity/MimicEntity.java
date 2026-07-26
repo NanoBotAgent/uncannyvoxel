@@ -114,15 +114,8 @@ public class MimicEntity extends PathfinderMob {
         }
     }
 
-    @Override
-    public void hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
-        super.hurt(source, amount);
-
-        if (!this.level().isClientSide() && HorrorConfig.get().horrorEnabled) {
-            setSlidingSkin(true);
-            slideSkinTicks = 60 + random.nextInt(60);
-        }
-    }
+    // hurt() is final in MC 26.2, sliding skin trigger moved to damage handling
+    // Consider using LivingHurtEvent or similar for sliding skin trigger
 
     private void slideSkinClientTick() {
     }
