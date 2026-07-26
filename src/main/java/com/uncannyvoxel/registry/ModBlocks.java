@@ -7,7 +7,7 @@ import com.uncannyvoxel.block.ChestMimicBlock;
 import com.uncannyvoxel.block.TetherStakeBlock;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -40,7 +40,7 @@ public final class ModBlocks {
     );
 
     private static Block register(String name, Block block) {
-        Identifier id = Identifier.of("uncannyvoxel", name);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
         Registry.register(BuiltInRegistries.BLOCK, id, block);
         ModItems.registerBlockItem(name, block);
         return block;

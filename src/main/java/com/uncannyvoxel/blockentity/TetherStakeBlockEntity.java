@@ -2,7 +2,6 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
