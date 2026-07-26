@@ -3,7 +3,7 @@ package com.uncannyvoxel.item;
 import com.uncannyvoxel.config.HorrorConfig;
 import com.uncannyvoxel.registry.ModSoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;

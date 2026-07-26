@@ -4,7 +4,7 @@ import com.uncannyvoxel.item.DesaturatedEyeItem;
 import com.uncannyvoxel.item.LumenScalpelItem;
 import com.uncannyvoxel.item.TetherStakeItem;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;

@@ -2,6 +2,7 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -10,8 +11,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
 
 import java.util.UUID;
 
@@ -92,22 +91,22 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         if (ownerUuid != null) {
-            output.putUUID("owner", ownerUuid);
+            tag.putUUID("owner", ownerUuid);
         }
-        output.putInt("radius", radius);
-        output.putBoolean("active", active);
-        output.putInt("cooldown", cooldown);
+        tag.putInt("radius", radius);
+        tag.putBoolean("active", active);
+        tag.putInt("cooldown", cooldown);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        ownerUuid = input.getUUIDOr("owner", null);
-        radius = input.getIntOr("radius", 5);
-        active = input.getBooleanOr("active", false);
-        cooldown = input.getIntOr("cooldown", 0);
+    protected void loadAdditional(CompoundTag tag) {
+        super.loadAdditional(tag);
+        ownerUuid = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
+        radius = tag.getInt("radius");
+        active = tag.getBoolean("active");
+        cooldown = tag.getInt("cooldown");
     }
 }

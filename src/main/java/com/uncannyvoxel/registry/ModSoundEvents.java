@@ -1,7 +1,7 @@
 package com.uncannyvoxel.registry;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
 

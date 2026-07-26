@@ -8,7 +8,7 @@ import com.uncannyvoxel.blockentity.RustedGrateBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.ResourceKey;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType.Builder;

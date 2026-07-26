@@ -5,7 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
 import net.minecraft.client.Camera;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.Identifier;
 
 public final class UncannyRenderBridge {
 

@@ -18,14 +18,14 @@ public final class VantablackChunkManager {
 
     public static void markChunkVantablack(ChunkPos chunkPos, boolean vantablack) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().vantablackChunksEnabled) {
-            VANTABLACK_CHUNKS.remove(chunkPos.toLong());
+            VANTABLACK_CHUNKS.remove(ChunkPos.asLong(chunkPos.x(), chunkPos.z()));
             return;
         }
 
         if (vantablack) {
-            VANTABLACK_CHUNKS.put(chunkPos.toLong(), true);
+            VANTABLACK_CHUNKS.put(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), true);
         } else {
-            VANTABLACK_CHUNKS.remove(chunkPos.toLong());
+            VANTABLACK_CHUNKS.remove(ChunkPos.asLong(chunkPos.x(), chunkPos.z()));
         }
     }
 
@@ -33,11 +33,11 @@ public final class VantablackChunkManager {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().vantablackChunksEnabled) {
             return false;
         }
-        return VANTABLACK_CHUNKS.getOrDefault(chunkPos.toLong(), false);
+        return VANTABLACK_CHUNKS.getOrDefault(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), false);
     }
 
     public static boolean isVantablackChunk(BlockPos blockPos) {
-        return isVantablackChunk(ChunkPos.of(blockPos));
+        return isVantablackChunk(new ChunkPos(blockPos.getX() >> 4, blockPos.getZ() >> 4));
     }
 
     public static boolean shouldDropLightmap(BlockPos cameraPos) {
@@ -45,13 +45,13 @@ public final class VantablackChunkManager {
             return false;
         }
 
-        ChunkPos chunkPos = ChunkPos.of(cameraPos);
-        return VANTABLACK_CHUNKS.getOrDefault(chunkPos.toLong(), false);
+        ChunkPos chunkPos = new ChunkPos(cameraPos.getX() >> 4, cameraPos.getZ() >> 4);
+        return VANTABLACK_CHUNKS.getOrDefault(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), false);
     }
 
     public static void markSulfurGeyserArea(BlockPos geyserPos) {
         int range = HorrorConfig.get().vantablackRangeChunks;
-        ChunkPos center = ChunkPos.of(geyserPos);
+        ChunkPos center = new ChunkPos(geyserPos.getX() >> 4, geyserPos.getZ() >> 4);
 
         for (int dx = -range; dx <= range; dx++) {
             for (int dz = -range; dz <= range; dz++) {
