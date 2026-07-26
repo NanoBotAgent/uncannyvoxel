@@ -37,7 +37,7 @@ public final class VantablackChunkManager {
     }
 
     public static boolean isVantablackChunk(BlockPos blockPos) {
-        return isVantablackChunk(new ChunkPos(blockPos));
+        return isVantablackChunk(ChunkPos.of(blockPos));
     }
 
     public static boolean shouldDropLightmap(BlockPos cameraPos) {
@@ -45,17 +45,17 @@ public final class VantablackChunkManager {
             return false;
         }
 
-        ChunkPos chunkPos = new ChunkPos(cameraPos);
+        ChunkPos chunkPos = ChunkPos.of(cameraPos);
         return VANTABLACK_CHUNKS.getOrDefault(chunkPos.toLong(), false);
     }
 
     public static void markSulfurGeyserArea(BlockPos geyserPos) {
         int range = HorrorConfig.get().vantablackRangeChunks;
-        ChunkPos center = new ChunkPos(geyserPos);
+        ChunkPos center = ChunkPos.of(geyserPos);
 
         for (int dx = -range; dx <= range; dx++) {
             for (int dz = -range; dz <= range; dz++) {
-                ChunkPos pos = new ChunkPos(center.getX() + dx, center.getZ() + dz);
+                ChunkPos pos = new ChunkPos(center.x() + dx, center.z() + dz);
                 markChunkVantablack(pos, true);
             }
         }

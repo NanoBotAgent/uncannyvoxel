@@ -25,7 +25,7 @@ public class TetherStakeItem extends Item {
                 BlockEntity be = level.getBlockEntity(pos);
                 if (be instanceof com.uncannyvoxel.blockentity.TetherStakeBlockEntity stake) {
                     stake.activate(player);
-                    return InteractionResult.sidedSuccess(level.isClientSide());
+                    return InteractionResult.sidedSuccess(level);
                 }
             }
         }
