@@ -10,7 +10,7 @@ public class MimicSlideSkinGoal extends Goal {
 
     public MimicSlideSkinGoal(MimicEntity mimic) {
         this.mimic = mimic;
-        this.setFlags(EnumSet.of());
+        this.setFlags(EnumSet.noneOf(Goal.Flag.class));
     }
 
     @Override

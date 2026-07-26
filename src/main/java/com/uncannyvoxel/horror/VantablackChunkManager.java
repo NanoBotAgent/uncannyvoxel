@@ -55,7 +55,7 @@ public final class VantablackChunkManager {
 
         for (int dx = -range; dx <= range; dx++) {
             for (int dz = -range; dz <= range; dz++) {
-                ChunkPos pos = new ChunkPos(center.x + dx, center.z + dz);
+                ChunkPos pos = new ChunkPos(center.getX() + dx, center.getZ() + dz);
                 markChunkVantablack(pos, true);
             }
         }

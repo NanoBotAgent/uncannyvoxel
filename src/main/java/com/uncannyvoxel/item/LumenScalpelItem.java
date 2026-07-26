@@ -57,7 +57,7 @@ public class LumenScalpelItem extends Item {
                     -(currentMaxHealth - newMaxHealth),
                     Operation.ADD_VALUE
             );
-            attrInstance.addOrUpdateModifier(modifier);
+            attrInstance.addTransientModifier(modifier);
         }
     }
 
@@ -66,27 +66,5 @@ public class LumenScalpelItem extends Item {
         if (attrInstance != null) {
             attrInstance.removeModifier(MAX_HEALTH_MODIFIER_ID);
         }
-    }
-
-    @Override
-    public boolean onEntitySwing(LivingEntity entity, ItemStack stack) {
-        if (entity instanceof Player player && !player.level().isClientSide()) {
-            revealInvisibleEntities(player);
-        }
-        return super.onEntitySwing(entity, stack);
-    }
-
-    private void revealInvisibleEntities(Player player) {
-        Level level = player.level();
-        double radius = 20.0;
-
-        level.getEntitiesOfClass(LivingEntity.class,
-                player.getBoundingBox().inflate(radius),
-                e -> e != player && e.hasEffect(MobEffects.INVISIBILITY))
-                .forEach(e -> {
-                    e.removeEffect(MobEffects.INVISIBILITY);
-                    level.playSound(null, e.blockPosition(), ModSoundEvents.MIRROR_WHISPER,
-                            SoundSource.PLAYERS, 0.5f, 1.2f);
-                });
     }
 }

@@ -2,9 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ReadView;
-import net.minecraft.nbt.WriteView;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -35,7 +34,7 @@ public class TetherStakeBlockEntity extends BlockEntity {
         cooldown = 0;
         setChanged();
 
-        DreadModel.registerSafeZone(pos, radius);
+        DreadModel.registerSafeZone(getBlockPos(), radius);
     }
 
     public void onOwnerLeft(Player player) {
@@ -44,7 +43,7 @@ public class TetherStakeBlockEntity extends BlockEntity {
         }
 
         active = false;
-        DreadModel.unregisterSafeZone(pos);
+        DreadModel.unregisterSafeZone(getBlockPos());
         ownerUuid = null;
         cooldown = 200;
         setChanged();
@@ -54,7 +53,7 @@ public class TetherStakeBlockEntity extends BlockEntity {
 
     private void alertNearbyEntities(Player player) {
         if (level instanceof ServerLevel serverLevel) {
-            AABB box = new AABB(pos).inflate(50);
+            AABB box = new AABB(getBlockPos()).inflate(50);
             serverLevel.getEntitiesOfClass(LivingEntity.class, box, e -> e != player)
                     .forEach(e -> {
                         if (e instanceof Mob mob) {
@@ -89,26 +88,26 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     public boolean isSafeZone(BlockPos checkPos) {
-        return active && pos.closerThan(checkPos, radius);
+        return active && getBlockPos().closerThan(checkPos, radius);
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
         if (ownerUuid != null) {
-            view.putUUID("owner", ownerUuid);
+            tag.putUUID("owner", ownerUuid);
         }
-        view.putInt("radius", radius);
-        view.putBoolean("active", active);
-        view.putInt("cooldown", cooldown);
+        tag.putInt("radius", radius);
+        tag.putBoolean("active", active);
+        tag.putInt("cooldown", cooldown);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        ownerUuid = view.getUUID("owner").orElse(null);
-        radius = view.getInt("radius").orElse(5);
-        active = view.getBoolean("active").orElse(false);
-        cooldown = view.getInt("cooldown").orElse(0);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        ownerUuid = tag.hasUUID("owner") ? tag.getUUID("owner") : null;
+        radius = tag.getInt("radius");
+        active = tag.getBoolean("active");
+        cooldown = tag.getInt("cooldown");
     }
 }

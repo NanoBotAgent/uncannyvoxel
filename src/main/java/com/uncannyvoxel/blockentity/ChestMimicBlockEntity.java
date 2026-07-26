@@ -2,8 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ReadView;
-import net.minecraft.nbt.WriteView;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -66,6 +66,11 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
+    public void setItems(net.minecraft.world.item.ItemStack[] stacks) {
+        createInventory().setItems(stacks);
+    }
+
+    @Override
     public boolean stillValid(Player player) {
         return Container.stillValidBlockEntity(this, player);
     }
@@ -92,7 +97,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
 
         if (level instanceof ServerLevel serverLevel) {
             player.hurt(serverLevel.damageSources().magic(), 10.0f);
-            serverLevel.playSound(null, pos, com.uncannyvoxel.registry.ModSoundEvents.CHEST_SNAP, SoundSource.BLOCKS, 1.0f, 1.0f);
+            serverLevel.playSound(null, getBlockPos(), com.uncannyvoxel.registry.ModSoundEvents.CHEST_SNAP, SoundSource.BLOCKS, 1.0f, 1.0f);
         }
 
         player.sendSystemMessage(Component.literal("It tasted you."));
@@ -111,16 +116,16 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        view.putInt("mimicCooldown", mimicCooldown);
-        view.putBoolean("mimicTriggered", mimicTriggered);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("mimicCooldown", mimicCooldown);
+        tag.putBoolean("mimicTriggered", mimicTriggered);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        mimicCooldown = view.getInt("mimicCooldown").orElse(0);
-        mimicTriggered = view.getBoolean("mimicTriggered").orElse(false);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        mimicCooldown = tag.getInt("mimicCooldown");
+        mimicTriggered = tag.getBoolean("mimicTriggered");
     }
 }

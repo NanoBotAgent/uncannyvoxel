@@ -26,7 +26,7 @@ public class DesaturatedEyeItem extends Item {
             BlockPos pos = player.blockPosition();
             com.uncannyvoxel.portal.PortalController.tryActivate(serverLevel, pos, (ServerPlayer) player);
         }
-        return InteractionResult.success(level.isClientSide());
+        return InteractionResult.sidedSuccess(level.isClientSide());
     }
 
     @Override
@@ -36,7 +36,7 @@ public class DesaturatedEyeItem extends Item {
             ServerPlayer player = (ServerPlayer) context.getPlayer();
             if (player != null) {
                 com.uncannyvoxel.portal.PortalController.tryActivate(serverLevel, context.getClickedPos(), player);
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
         return InteractionResult.PASS;

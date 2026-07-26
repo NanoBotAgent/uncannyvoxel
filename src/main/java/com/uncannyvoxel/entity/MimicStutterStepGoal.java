@@ -1,6 +1,6 @@
 package com.uncannyvoxel.entity;
 
-import net.minecraft.world.entity.LivingEntity;
+
 import net.minecraft.world.entity.ai.goal.Goal;
 import net.minecraft.world.entity.PathfinderMob;
 
@@ -15,7 +15,7 @@ public class MimicStutterStepGoal extends Goal {
 
     public MimicStutterStepGoal(PathfinderMob mimic) {
         this.mimic = mimic;
-        this.setFlags(EnumSet.of(Flag.MOVE));
+        this.setFlags(EnumSet.of(Goal.Flag.MOVE));
     }
 
     @Override
@@ -25,7 +25,7 @@ public class MimicStutterStepGoal extends Goal {
             return false;
         }
 
-        LivingEntity target = mimic.getTarget();
+        net.minecraft.world.entity.LivingEntity target = mimic.getTarget();
         if (target == null) return false;
 
         if (mimic.distanceToSqr(target) < 256.0 && random.nextFloat() < 0.05f) {

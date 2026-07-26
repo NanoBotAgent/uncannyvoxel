@@ -14,7 +14,7 @@ public class MimicHeadRotationGoal extends Goal {
 
     public MimicHeadRotationGoal(PathfinderMob mimic) {
         this.mimic = mimic;
-        this.setFlags(EnumSet.of(Flag.LOOK));
+        this.setFlags(EnumSet.of(Goal.Flag.LOOK));
     }
 
     @Override
@@ -33,7 +33,7 @@ public class MimicHeadRotationGoal extends Goal {
             float targetYaw = mimic.getYRot() + 180.0f;
             float currentYaw = mimic.getYRot();
 
-            float newYaw = Mth.lerpAngleDegrees(0.05f, currentYaw, targetYaw);
+            float newYaw = Mth.lerpDegrees(0.05f, currentYaw, targetYaw);
             mimic.setYRot(newYaw);
             mimic.yHeadRot = newYaw;
             mimic.yBodyRot = newYaw;

@@ -28,7 +28,7 @@ public class MimicEntity extends PathfinderMob {
     private static final EntityDataAccessor<Boolean> SLIDING_SKIN =
             SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.BOOLEAN);
     private static final EntityDataAccessor<Integer> STUTTER_COOLDOWN =
-            SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.INTEGER);
+            SynchedEntityData.defineId(MimicEntity.class, EntityDataSerializers.INT);
 
     private int slideSkinTicks = 0;
     private int stutterTicks = 0;

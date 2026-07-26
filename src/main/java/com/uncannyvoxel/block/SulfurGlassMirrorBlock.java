@@ -13,7 +13,7 @@ import net.minecraft.world.item.context.BlockPlaceContext;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BlockEntityProvider;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -24,7 +24,7 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
 import org.jetbrains.annotations.Nullable;
 
-public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world.level.block.BlockEntityProvider {
+public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world.level.block.EntityBlock {
 
     public SulfurGlassMirrorBlock(Properties properties) {
         super(properties.noOcclusion().strength(0.3f).sound(net.minecraft.world.level.block.SoundType.GLASS));
@@ -52,20 +52,20 @@ public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world
             ItemStack stack = player.getItemInHand(hand);
             if (stack.is(com.uncannyvoxel.registry.ModItems.DESATURATED_EYE)) {
                 com.uncannyvoxel.portal.PortalController.tryActivate((ServerLevel) level, pos, (net.minecraft.server.level.ServerPlayer) player);
-                return InteractionResult.SUCCESS;
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
         return InteractionResult.PASS;
     }
 
     @Override
-    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
         if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = level.getBlockEntity(pos);
             if (blockEntity instanceof SulfurGlassMirrorBlockEntity mirror) {
                 mirror.onPortalDeactivated();
             }
-            super.onRemove(state, level, pos, newState, moved);
+            super.onRemove(state, level, pos, newState, isMoving);
         }
     }
 

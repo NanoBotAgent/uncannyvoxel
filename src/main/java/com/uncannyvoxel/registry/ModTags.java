@@ -17,4 +17,7 @@ public final class ModTags {
             TagKey.create(Registries.BLOCK, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "sulfur_geysers"));
 
     private ModTags() {}
+
+    public static void init() {
+    }
 }

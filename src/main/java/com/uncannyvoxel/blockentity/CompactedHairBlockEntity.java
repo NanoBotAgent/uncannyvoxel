@@ -3,8 +3,6 @@ package com.uncannyvoxel.blockentity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ReadView;
-import net.minecraft.nbt.WriteView;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -29,14 +27,14 @@ public class CompactedHairBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        view.putInt("pulsePhase", pulsePhase);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("pulsePhase", pulsePhase);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        pulsePhase = view.getInt("pulsePhase").orElse(0);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        pulsePhase = tag.getInt("pulsePhase");
     }
 }

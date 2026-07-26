@@ -1,8 +1,8 @@
 package com.uncannyvoxel.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ReadView;
-import net.minecraft.nbt.WriteView;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,14 +27,14 @@ public class RustedGrateBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        view.putInt("humLevel", humLevel);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("humLevel", humLevel);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        humLevel = view.getInt("humLevel").orElse(0);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        humLevel = tag.getInt("humLevel");
     }
 }

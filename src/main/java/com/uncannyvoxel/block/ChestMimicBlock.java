@@ -8,7 +8,7 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.BlockEntityProvider;
+import net.minecraft.world.level.block.EntityBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -16,7 +16,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.Nullable;
 
-public class ChestMimicBlock extends Block implements net.minecraft.world.level.block.BlockEntityProvider {
+public class ChestMimicBlock extends Block implements net.minecraft.world.level.block.EntityBlock {
 
     public ChestMimicBlock(Properties properties) {
         super(properties
@@ -45,7 +45,7 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide()) {
-            return InteractionResult.SUCCESS;
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         if (!com.uncannyvoxel.config.HorrorConfig.get().chestMimicEnabled) {
@@ -55,7 +55,7 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ChestMimicBlockEntity mimic) {
             mimic.triggerMimic(player);
-            return InteractionResult.SUCCESS;
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         return InteractionResult.PASS;
