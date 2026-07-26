@@ -6,8 +6,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
 
 public class SulfurGlassMirrorBlockEntity extends BlockEntity {
 
@@ -19,17 +17,17 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        output.putBoolean("portalActive", portalActive);
-        output.putInt("activationCooldown", activationCooldown);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putBoolean("portalActive", portalActive);
+        tag.putInt("activationCooldown", activationCooldown);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        portalActive = input.getBooleanOr("portalActive", false);
-        activationCooldown = input.getIntOr("activationCooldown", 0);
+    protected void loadAdditional(CompoundTag tag) {
+        super.loadAdditional(tag);
+        portalActive = tag.getBoolean("portalActive");
+        activationCooldown = tag.getInt("activationCooldown");
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.uncannyvoxel.registry;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.core.registries.ResourceKey;
+import net.minecraft.core.ResourceKey;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.levelgen.structure.Structure;
 
