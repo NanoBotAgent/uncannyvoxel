@@ -18,14 +18,14 @@ public final class VantablackChunkManager {
 
     public static void markChunkVantablack(ChunkPos chunkPos, boolean vantablack) {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().vantablackChunksEnabled) {
-            VANTABLACK_CHUNKS.remove(ChunkPos.asLong(chunkPos.x(), chunkPos.z()));
+            VANTABLACK_CHUNKS.remove(chunkPosToLong(chunkPos));
             return;
         }
 
         if (vantablack) {
-            VANTABLACK_CHUNKS.put(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), true);
+            VANTABLACK_CHUNKS.put(chunkPosToLong(chunkPos), true);
         } else {
-            VANTABLACK_CHUNKS.remove(ChunkPos.asLong(chunkPos.x(), chunkPos.z()));
+            VANTABLACK_CHUNKS.remove(chunkPosToLong(chunkPos));
         }
     }
 
@@ -33,7 +33,7 @@ public final class VantablackChunkManager {
         if (!HorrorConfig.get().horrorEnabled || !HorrorConfig.get().vantablackChunksEnabled) {
             return false;
         }
-        return VANTABLACK_CHUNKS.getOrDefault(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), false);
+        return VANTABLACK_CHUNKS.getOrDefault(chunkPosToLong(chunkPos), false);
     }
 
     public static boolean isVantablackChunk(BlockPos blockPos) {
@@ -46,7 +46,11 @@ public final class VantablackChunkManager {
         }
 
         ChunkPos chunkPos = new ChunkPos(cameraPos.getX() >> 4, cameraPos.getZ() >> 4);
-        return VANTABLACK_CHUNKS.getOrDefault(ChunkPos.asLong(chunkPos.x(), chunkPos.z()), false);
+        return VANTABLACK_CHUNKS.getOrDefault(chunkPosToLong(chunkPos), false);
+    }
+
+    private static long chunkPosToLong(ChunkPos chunkPos) {
+        return (((long) chunkPos.x()) << 32) | (chunkPos.z() & 0xFFFFFFFFL);
     }
 
     public static void markSulfurGeyserArea(BlockPos geyserPos) {

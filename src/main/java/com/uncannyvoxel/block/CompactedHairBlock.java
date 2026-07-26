@@ -49,7 +49,6 @@ public class CompactedHairBlock extends Block implements net.minecraft.world.lev
         return SHAPE;
     }
 
-    @Override
     public boolean canSurvive(BlockState state, net.minecraft.world.level.LevelAccessor level, BlockPos pos) {
         return true;
     }
