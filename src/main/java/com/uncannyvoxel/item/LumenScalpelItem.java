@@ -13,6 +13,7 @@ import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -54,7 +55,7 @@ public class LumenScalpelItem extends Item {
             AttributeModifier modifier = new AttributeModifier(
                     MAX_HEALTH_MODIFIER_ID,
                     -(currentMaxHealth - newMaxHealth),
-                    AttributeModifier.Operation.ADD_VALUE
+                    Operation.ADD_VALUE
             );
             attrInstance.addOrUpdateModifier(modifier);
         }

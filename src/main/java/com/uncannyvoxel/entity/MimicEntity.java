@@ -16,12 +16,10 @@ import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.nbt.CompoundTag;
 
 import java.util.Random;
 
@@ -117,8 +115,8 @@ public class MimicEntity extends PathfinderMob {
     }
 
     @Override
-    public void hurt(ServerLevel level, net.minecraft.world.damagesource.DamageSource source, float amount) {
-        super.hurt(level, source, amount);
+    public void hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
+        super.hurt(source, amount);
 
         if (!this.level().isClientSide && HorrorConfig.get().horrorEnabled) {
             setSlidingSkin(true);

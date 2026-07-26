@@ -2,7 +2,6 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -11,6 +10,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 
 import java.util.UUID;
 
@@ -91,24 +92,22 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
         if (ownerUuid != null) {
-            tag.putUUID("owner", ownerUuid);
+            view.putUUID("owner", ownerUuid);
         }
-        tag.putInt("radius", radius);
-        tag.putBoolean("active", active);
-        tag.putInt("cooldown", cooldown);
+        view.putInt("radius", radius);
+        view.putBoolean("active", active);
+        view.putInt("cooldown", cooldown);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        if (tag.hasUUID("owner")) {
-            ownerUuid = tag.getUUID("owner");
-        }
-        radius = tag.getInt("radius");
-        active = tag.getBoolean("active");
-        cooldown = tag.getInt("cooldown");
+    protected void readData(ReadView view) {
+        super.readData(view);
+        ownerUuid = view.getUUID("owner").orElse(null);
+        radius = view.getInt("radius", 5);
+        active = view.getBoolean("active", false);
+        cooldown = view.getInt("cooldown", 0);
     }
 }

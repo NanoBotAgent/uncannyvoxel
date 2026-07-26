@@ -6,7 +6,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 
 public class SulfurGlassMirrorBlockEntity extends BlockEntity {
 
@@ -18,17 +19,17 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putBoolean("portalActive", portalActive);
-        tag.putInt("activationCooldown", activationCooldown);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putBoolean("portalActive", portalActive);
+        view.putInt("activationCooldown", activationCooldown);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, net.minecraft.core.HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        portalActive = tag.getBoolean("portalActive");
-        activationCooldown = tag.getInt("activationCooldown");
+    protected void readData(ReadView view) {
+        super.readData(view);
+        portalActive = view.getBoolean("portalActive", false);
+        activationCooldown = view.getInt("activationCooldown", 0);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SulfurGlassMirrorBlockEntity entity) {
