@@ -1,1 +1,15 @@
-{'required': True, 'package': 'com.uncannyvoxel.mixin', 'compatibilityLevel': 'JAVA_25', 'mixins': ['common.ServerWorldMixin', 'common.MobEntityMixin', 'common.LivingEntityMixin', 'common.ItemEntityMixin', 'common.PlayerEntityMixin'], 'injectors': {'defaultRequire': 0}}
+{
+  "required": true,
+  "package": "com.uncannyvoxel.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "common.ServerWorldMixin",
+    "common.MobEntityMixin",
+    "common.LivingEntityMixin",
+    "common.ItemEntityMixin",
+    "common.PlayerEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 0
+  }
+}

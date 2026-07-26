@@ -1,1 +1,34 @@
-{'schemaVersion': 1, 'id': 'uncannyvoxel', 'version': '${version}', 'name': 'The Uncanny Voxel', 'description': 'Psychological horror, uncanny visuals, and the Substrate dimension.', 'authors': ['You'], 'license': 'ARR', 'environment': '*', 'entrypoints': {'main': ['com.uncannyvoxel.UncannyVoxelMod'], 'client': ['com.uncannyvoxel.UncannyVoxelClient'], 'fabric-gametest': ['com.uncannyvoxel.test.gametest.UncannyPortalGameTest', 'com.uncannyvoxel.test.gametest.UncannyDimensionGameTest']}, 'mixins': ['uncannyvoxel.mixins.json', 'uncannyvoxel.client.mixins.json'], 'depends': {'fabricloader': '>=0.19.3', 'fabric-api': '*', 'minecraft': '26.2', 'java': '>=25'}, 'custom': {'uncannyvoxel': {'requiresConsentForMic': True, 'photosensitivitySafeModeDefault': True}}}
+{
+  "schemaVersion": 1,
+  "id": "uncannyvoxel",
+  "version": "${version}",
+  "name": "The Uncanny Voxel",
+  "description": "Psychological horror, uncanny visuals, and the Substrate dimension.",
+  "authors": ["You"],
+  "license": "ARR",
+  "environment": "*",
+  "entrypoints": {
+    "main": ["com.uncannyvoxel.UncannyVoxelMod"],
+    "client": ["com.uncannyvoxel.UncannyVoxelClient"],
+    "fabric-gametest": [
+      "com.uncannyvoxel.test.gametest.UncannyPortalGameTest",
+      "com.uncannyvoxel.test.gametest.UncannyDimensionGameTest"
+    ]
+  },
+  "mixins": [
+    "uncannyvoxel.mixins.json",
+    "uncannyvoxel.client.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.3",
+    "fabric-api": "*",
+    "minecraft": "26.2",
+    "java": ">=25"
+  },
+  "custom": {
+    "uncannyvoxel": {
+      "requiresConsentForMic": true,
+      "photosensitivitySafeModeDefault": true
+    }
+  }
+}

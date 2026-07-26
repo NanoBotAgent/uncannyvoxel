@@ -20,21 +20,35 @@ loom {
             sourceSet sourceSets.client
         }
     }
+
+    runs {
+        configureEach {
+            runtimeLogLevel = org.gradle.api.logging.configuration.LogLevel.INFO
+        }
+    }
 }
 
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
-    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
-    implementation "net.fabricmc.fabric-api:fabric-gametest-api-v1:${project.fabric_version}"
+    implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
-    testImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
+    testImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
 }
 
 test {
     useJUnitPlatform()
+}
+
+processResources {
+    def version = project.version
+    inputs.property "version", version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": version
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {
@@ -49,14 +63,8 @@ java {
     targetCompatibility = JavaVersion.VERSION_25
 }
 
-tasks.register('validateResources') {
-    group = 'verification'
-    description = 'Validates that all resource files are present and well-formed'
-    doLast {
-        def fabricModJson = file('src/main/resources/fabric.mod.json')
-        if (!fabricModJson.exists()) {
-            throw new GradleException('fabric.mod.json not found!')
-        }
-        println 'Resources validated successfully'
+jar {
+    from("LICENSE") {
+        rename { "${it}_uncannyvoxel" }
     }
 }
