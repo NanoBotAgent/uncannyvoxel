@@ -1,11 +1,12 @@
 package com.uncannyvoxel.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.nbt.ValueInput;
+import net.minecraft.nbt.ValueOutput;
 
 public class RustedGrateBlockEntity extends BlockEntity {
 
@@ -27,14 +28,14 @@ public class RustedGrateBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putInt("humLevel", humLevel);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("humLevel", humLevel);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        humLevel = tag.getInt("humLevel");
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        humLevel = input.getIntOr("humLevel", 0);
     }
 }

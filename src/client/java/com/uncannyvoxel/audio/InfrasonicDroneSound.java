@@ -7,7 +7,7 @@ import net.minecraft.client.player.LocalPlayer;
 import net.minecraft.client.sounds.SimpleSoundInstance;
 import net.minecraft.client.sounds.SoundInstance;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Identifier;
 import net.minecraft.core.BlockPos;
 import java.util.Random;
 
