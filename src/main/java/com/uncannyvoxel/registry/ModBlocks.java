@@ -1,11 +1,5 @@
 package com.uncannyvoxel.registry;
 
-import com.uncannyvoxel.block.SulfurGlassMirrorBlock;
-import com.uncannyvoxel.block.RustedGrateBlock;
-import com.uncannyvoxel.block.CompactedHairBlock;
-import com.uncannyvoxel.block.ChestMimicBlock;
-import com.uncannyvoxel.block.TetherStakeBlock;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -41,7 +35,7 @@ public final class ModBlocks {
 
     private static Block register(String name, Block block) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
-        Registry.register(BuiltInRegistries.BLOCK, id, block);
+        BuiltInRegistries.BLOCK.register(id, block);
         ModItems.registerBlockItem(name, block);
         return block;
     }

@@ -1,10 +1,9 @@
 package com.uncannyvoxel.registry;
 
 import net.minecraft.core.registries.Registries;
-import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.structure.Structure;
-import net.minecraft.resources.ResourceKey;
 
 public final class ModStructures {
 

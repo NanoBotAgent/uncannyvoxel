@@ -5,7 +5,6 @@ import com.uncannyvoxel.blockentity.ChestMimicBlockEntity;
 import com.uncannyvoxel.blockentity.TetherStakeBlockEntity;
 import com.uncannyvoxel.blockentity.CompactedHairBlockEntity;
 import com.uncannyvoxel.blockentity.RustedGrateBlockEntity;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -39,7 +38,7 @@ public final class ModBlockEntities {
     );
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name), type);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.register(ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name), type);
     }
 
     public static void init() {}

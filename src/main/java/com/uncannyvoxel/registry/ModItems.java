@@ -3,7 +3,6 @@ package com.uncannyvoxel.registry;
 import com.uncannyvoxel.item.DesaturatedEyeItem;
 import com.uncannyvoxel.item.LumenScalpelItem;
 import com.uncannyvoxel.item.TetherStakeItem;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
@@ -22,13 +21,13 @@ public final class ModItems {
     public static void registerBlockItem(String name, Block block) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
         Item item = new BlockItem(block, new Item.Properties());
-        Registry.register(BuiltInRegistries.ITEM, id, item);
+        BuiltInRegistries.ITEM.register(id, item);
     }
 
     private static Item register(String name, java.util.function.Function<Item.Properties, ? extends Item> factory, Item.Properties props) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
         Item item = factory.apply(props);
-        Registry.register(BuiltInRegistries.ITEM, id, item);
+        BuiltInRegistries.ITEM.register(id, item);
         return item;
     }
 

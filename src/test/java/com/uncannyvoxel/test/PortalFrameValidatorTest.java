@@ -21,7 +21,7 @@ class PortalFrameValidatorTest {
 
         Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         for (BlockPos offset : PortalFrameValidator.RING) {
-            Mockito.when(world.getBlockState(center.add(offset)))
+            Mockito.when(world.getBlockState(center.offset(offset.getX(), offset.getY(), offset.getZ())))
                     .thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         }
 
@@ -40,10 +40,10 @@ class PortalFrameValidatorTest {
 
         Mockito.when(world.getBlockState(center)).thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         for (BlockPos offset : PortalFrameValidator.RING) {
-            Mockito.when(world.getBlockState(center.add(offset)))
+            Mockito.when(world.getBlockState(center.offset(offset.getX(), offset.getY(), offset.getZ())))
                     .thenReturn(Blocks.TINTED_GLASS.defaultBlockState());
         }
-        Mockito.when(world.getBlockState(center.add(PortalFrameValidator.RING[0])))
+        Mockito.when(world.getBlockState(center.offset(PortalFrameValidator.RING[0].getX(), PortalFrameValidator.RING[0].getY(), PortalFrameValidator.RING[0].getZ())))
                 .thenReturn(Blocks.AIR.defaultBlockState());
 
         Predicate<BlockState> framePredicate = state -> state.is(Blocks.TINTED_GLASS);

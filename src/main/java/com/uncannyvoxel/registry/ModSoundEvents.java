@@ -3,7 +3,7 @@ package com.uncannyvoxel.registry;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.sounds.SoundEvent;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public final class ModSoundEvents {
 
@@ -22,7 +22,7 @@ public final class ModSoundEvents {
 
     private static SoundEvent register(String name) {
         ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
-        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
+        return BuiltInRegistries.SOUND_EVENT.register(id, SoundEvent.createVariableRangeEvent(id));
     }
 
     public static void init() {}

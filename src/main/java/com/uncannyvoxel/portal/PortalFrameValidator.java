@@ -32,7 +32,7 @@ public final class PortalFrameValidator {
         }
 
         for (BlockPos offset : RING) {
-            BlockPos pos = center.add(offset);
+            BlockPos pos = center.offset(offset.getX(), offset.getY(), offset.getZ());
             BlockState state = world.getBlockState(pos);
 
             if (!ringPredicate.test(state)) {
