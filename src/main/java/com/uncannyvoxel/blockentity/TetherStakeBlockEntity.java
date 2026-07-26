@@ -2,8 +2,9 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ReadView;
+import net.minecraft.nbt.WriteView;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -92,24 +93,22 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
         if (ownerUuid != null) {
-            tag.putUUID("owner", ownerUuid);
+            view.putUUID("owner", ownerUuid);
         }
-        tag.putInt("radius", radius);
-        tag.putBoolean("active", active);
-        tag.putInt("cooldown", cooldown);
+        view.putInt("radius", radius);
+        view.putBoolean("active", active);
+        view.putInt("cooldown", cooldown);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        if (tag.hasUUID("owner")) {
-            ownerUuid = tag.getUUID("owner");
-        }
-        radius = tag.getInt("radius").orElse(5);
-        active = tag.getBoolean("active").orElse(false);
-        cooldown = tag.getInt("cooldown").orElse(0);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        ownerUuid = view.getUUID("owner").orElse(null);
+        radius = view.getInt("radius").orElse(5);
+        active = view.getBoolean("active").orElse(false);
+        cooldown = view.getInt("cooldown").orElse(0);
     }
 }

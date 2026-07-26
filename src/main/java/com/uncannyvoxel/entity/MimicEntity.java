@@ -90,7 +90,7 @@ public class MimicEntity extends PathfinderMob {
     public void tick() {
         super.tick();
 
-        if (this.level().isClientSide) {
+        if (this.level().isClientSide()) {
             if (isSlidingSkin()) {
                 slideSkinClientTick();
             }
@@ -118,7 +118,7 @@ public class MimicEntity extends PathfinderMob {
     public void hurt(net.minecraft.world.damagesource.DamageSource source, float amount) {
         super.hurt(source, amount);
 
-        if (!this.level().isClientSide && HorrorConfig.get().horrorEnabled) {
+        if (!this.level().isClientSide() && HorrorConfig.get().horrorEnabled) {
             setSlidingSkin(true);
             slideSkinTicks = 60 + random.nextInt(60);
         }

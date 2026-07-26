@@ -2,8 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.VantablackChunkManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ReadView;
+import net.minecraft.nbt.WriteView;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,17 +18,17 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.saveAdditional(tag, registries);
-        tag.putBoolean("portalActive", portalActive);
-        tag.putInt("activationCooldown", activationCooldown);
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putBoolean("portalActive", portalActive);
+        view.putInt("activationCooldown", activationCooldown);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
-        super.loadAdditional(tag, registries);
-        portalActive = tag.getBoolean("portalActive").orElse(false);
-        activationCooldown = tag.getInt("activationCooldown").orElse(0);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        portalActive = view.getBoolean("portalActive").orElse(false);
+        activationCooldown = view.getInt("activationCooldown").orElse(0);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SulfurGlassMirrorBlockEntity entity) {
