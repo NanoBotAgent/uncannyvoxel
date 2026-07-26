@@ -20,12 +20,6 @@ loom {
             sourceSet sourceSets.client
         }
     }
-
-    runs {
-        configureEach {
-            runtimeLogLevel = org.gradle.api.logging.configuration.LogLevel.INFO
-        }
-    }
 }
 
 dependencies {
