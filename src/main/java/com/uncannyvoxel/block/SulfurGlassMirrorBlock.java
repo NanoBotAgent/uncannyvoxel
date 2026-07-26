@@ -22,6 +22,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
+import org.jetbrains.annotations.Nullable;
 
 public class SulfurGlassMirrorBlock extends Block implements EntityBlock {
 
@@ -34,9 +35,15 @@ public class SulfurGlassMirrorBlock extends Block implements EntityBlock {
         return new SulfurGlassMirrorBlockEntity(pos, state);
     }
 
+    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return level.isClientSide() ? null : createTickerHelper(type, ModBlockEntities.SULFUR_GLASS_MIRROR, SulfurGlassMirrorBlockEntity::tick);
+    }
+
+    private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
+            BlockEntityType<A> type, BlockEntityType<E> checkedType, BlockEntityTicker<? super E> ticker) {
+        return checkedType == type ? (BlockEntityTicker<A>) ticker : null;
     }
 
     @Override

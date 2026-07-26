@@ -14,6 +14,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraft.world.phys.shapes.Shapes;
+import org.jetbrains.annotations.Nullable;
 
 public class TetherStakeBlock extends Block implements EntityBlock {
 
@@ -32,9 +33,15 @@ public class TetherStakeBlock extends Block implements EntityBlock {
         return new TetherStakeBlockEntity(pos, state);
     }
 
+    @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         return createTickerHelper(type, ModBlockEntities.TETHER_STAKE, TetherStakeBlockEntity::tick);
+    }
+
+    private static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(
+            BlockEntityType<A> type, BlockEntityType<E> checkedType, BlockEntityTicker<? super E> ticker) {
+        return checkedType == type ? (BlockEntityTicker<A>) ticker : null;
     }
 
     @Override

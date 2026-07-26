@@ -2,6 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -14,8 +16,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.Level;
-import net.minecraft.storage.ReadView;
-import net.minecraft.storage.WriteView;
 
 public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
 
@@ -111,16 +111,16 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void writeData(WriteView view) {
-        super.writeData(view);
-        view.putInt("mimicCooldown", mimicCooldown);
-        view.putBoolean("mimicTriggered", mimicTriggered);
+    protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.saveAdditional(tag, registries);
+        tag.putInt("mimicCooldown", mimicCooldown);
+        tag.putBoolean("mimicTriggered", mimicTriggered);
     }
 
     @Override
-    protected void readData(ReadView view) {
-        super.readData(view);
-        mimicCooldown = view.getInt("mimicCooldown", 0);
-        mimicTriggered = view.getBoolean("mimicTriggered", false);
+    protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
+        super.loadAdditional(tag, registries);
+        mimicCooldown = tag.getInt("mimicCooldown");
+        mimicTriggered = tag.getBoolean("mimicTriggered");
     }
 }
