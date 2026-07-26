@@ -2,7 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ValueInput;
+import net.minecraft.nbt.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -115,16 +116,16 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt("mimicCooldown", mimicCooldown);
-        tag.putBoolean("mimicTriggered", mimicTriggered);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("mimicCooldown", mimicCooldown);
+        output.putBoolean("mimicTriggered", mimicTriggered);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag) {
-        super.loadAdditional(tag);
-        mimicCooldown = tag.getInt("mimicCooldown");
-        mimicTriggered = tag.getBoolean("mimicTriggered");
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        mimicCooldown = input.getIntOr("mimicCooldown", 0);
+        mimicTriggered = input.getBooleanOr("mimicTriggered", false);
     }
 }
