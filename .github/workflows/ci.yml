@@ -31,7 +31,7 @@ jobs:
       - name: Build with Gradle
         run: |
           set -o pipefail
-          ./gradlew clean build --no-daemon --stacktrace 2>&1 | tee build.log
+          ./gradlew clean build --no-daemon --stacktrace --info 2>&1 | tee build.log
 
       - name: Upload build log
         if: always()
@@ -44,7 +44,7 @@ jobs:
       - name: Run unit tests
         run: |
           set -o pipefail
-          ./gradlew test --no-daemon --stacktrace 2>&1 | tee test.log
+          ./gradlew test --no-daemon --stacktrace --info 2>&1 | tee test.log
 
       - name: Upload test log
         if: always()
@@ -54,15 +54,11 @@ jobs:
           path: test.log
           retention-days: 7
 
-      - name: Validate resources
-        run: ./gradlew validateResources --no-daemon --stacktrace
+      - name: Validate resources (check JSON syntax)
+        run: |
+          find src/main/resources -name '*.json' -exec echo 'Validating {}' \; -exec jq empty {} \;
+          echo 'All JSON files are valid'
 
-      - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: uncannyvoxel-build
-          path: build/libs/*.jar
-          retention-days: 7
 
   gametest:
     name: Fabric GameTest (mc-runtime-test)

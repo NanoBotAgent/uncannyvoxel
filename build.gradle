@@ -73,3 +73,19 @@ jar {
         rename { "${it}_uncannyvoxel" }
     }
 }
+
+task validateResources {
+    doLast {
+        def jsonFiles = fileTree('src/main/resources').include('**/*.json')
+        jsonFiles.each { file ->
+            def content = file.text
+            try {
+                def json = new groovy.json.JsonSlurper().parseText(content)
+                println "Validated: ${file.path}"
+            } catch (Exception e) {
+                throw new GradleException("Invalid JSON in ${file.path}: ${e.message}")
+            }
+        }
+        println 'All JSON resources are valid'
+    }
+}
