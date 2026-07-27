@@ -2,8 +2,7 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -92,10 +91,11 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput tag) {
+    protected void saveAdditional(CompoundTag tag) {
         super.saveAdditional(tag);
         if (ownerUuid != null) {
-            tag.putLong("ownerMost", ownerUuid.getMostSignificantBits()); tag.putLong("ownerLeast", ownerUuid.getLeastSignificantBits());
+            tag.putLong("ownerMost", ownerUuid.getMostSignificantBits());
+            tag.putLong("ownerLeast", ownerUuid.getLeastSignificantBits());
         }
         tag.putInt("radius", radius);
         tag.putBoolean("active", active);
@@ -103,11 +103,13 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(ValueInput tag) {
+    protected void loadAdditional(CompoundTag tag) {
         super.loadAdditional(tag);
-        long most = tag.getLongOr("ownerMost", 0L); long least = tag.getLongOr("ownerLeast", 0L); if (most != 0 && least != 0) ownerUuid = new java.util.UUID(most, least);
-        radius = tag.getIntOr("radius", 0);
-        active = tag.getBooleanOr("active", false);
-        cooldown = tag.getIntOr("cooldown", 0);
+        long most = tag.getLong("ownerMost");
+        long least = tag.getLong("ownerLeast");
+        if (most != 0 && least != 0) ownerUuid = new java.util.UUID(most, least);
+        radius = tag.getInt("radius");
+        active = tag.getBoolean("active");
+        cooldown = tag.getInt("cooldown");
     }
 }

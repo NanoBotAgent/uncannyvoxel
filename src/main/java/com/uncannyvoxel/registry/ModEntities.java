@@ -15,7 +15,7 @@ public final class ModEntities {
             BuiltInRegistries.ENTITY_TYPE,
             ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath("uncannyvoxel", "mimic")),
             EntityType.Builder.of(MimicEntity::new, MobCategory.MONSTER)
-                    .sized(0.6f, 1.95f)
+                    .dimensions(0.6f, 1.95f)
                     .build(ResourceKey.create(Registries.ENTITY_TYPE, Identifier.fromNamespaceAndPath("uncannyvoxel", "mimic")))
     );
 
