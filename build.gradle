@@ -26,6 +26,10 @@ sourceSets {
     client {
         compileClasspath += sourceSets.main.output
     }
+    test {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+    }
 }
 
 dependencies {
@@ -36,6 +40,7 @@ dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
     testImplementation 'org.mockito:mockito-core:5.11.0'
     testImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
+    testMinecraft "com.mojang:minecraft:${project.minecraft_version}"
 }
 
 test {
