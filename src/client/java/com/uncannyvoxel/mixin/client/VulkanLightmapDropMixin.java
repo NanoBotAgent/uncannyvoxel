@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 // @Mixin(targets = "net.minecraft.client.renderer.VulkanLightmapTextureManager", require = 0) // REMOVED: Does not exist in MC 26.2
-public class VulkanLightmapDropMixin {
+// public class VulkanLightmapDropMixin {
 
     @Inject(
         method = "bindLightmap",

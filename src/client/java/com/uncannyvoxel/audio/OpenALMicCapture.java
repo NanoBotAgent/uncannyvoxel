@@ -28,14 +28,14 @@ public class OpenALMicCapture implements MicCapture {
         if (running) return;
 
         String defaultDevice = ALC10.alcGetString(0, ALC11.ALC_CAPTURE_DEVICE_SPECIFIER);
-        device = ALC10.alcCaptureOpenDevice(defaultDevice, sampleRate, format, captureBufferSize);
+        device = ALC11.alcCaptureOpenDevice(defaultDevice, sampleRate, format, captureBufferSize);
         if (device == 0) {
             running = false;
             return;
         }
 
         running = true;
-        ALC10.alcCaptureStart(device);
+        ALC11.alcCaptureStart(device);
 
         captureThread = new Thread(this::captureLoop, "UncannyVoxel-MicCapture");
         captureThread.setDaemon(true);
@@ -45,12 +45,12 @@ public class OpenALMicCapture implements MicCapture {
     private void captureLoop() {
         while (running && device != 0) {
             IntBuffer samplesAvailable = IntBuffer.allocate(1);
-            ALC10.alcGetIntegerv(device, ALC10.ALC_CAPTURE_SAMPLES, samplesAvailable);
+            ALC11.alcGetIntegerv(device, ALC11.ALC_CAPTURE_SAMPLES, samplesAvailable);
             int available = samplesAvailable.get(0);
 
             if (available > 0) {
                 ShortBuffer buffer = ShortBuffer.allocate(available);
-                ALC10.alcCaptureSamples(device, buffer, available);
+                ALC11.alcCaptureSamples(device, buffer, available);
                 buffer.flip();
 
                 float amplitude = calculateAmplitude(buffer);
@@ -83,8 +83,8 @@ public class OpenALMicCapture implements MicCapture {
     public void stop() {
         running = false;
         if (device != 0) {
-            ALC10.alcCaptureStop(device);
-            ALC10.alcCaptureCloseDevice(device);
+            ALC11.alcCaptureStop(device);
+            ALC11.alcCaptureCloseDevice(device);
             device = 0;
         }
         if (captureThread != null) {
