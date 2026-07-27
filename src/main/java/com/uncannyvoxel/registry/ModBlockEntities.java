@@ -6,7 +6,7 @@ import com.uncannyvoxel.blockentity.TetherStakeBlockEntity;
 import com.uncannyvoxel.blockentity.CompactedHairBlockEntity;
 import com.uncannyvoxel.blockentity.RustedGrateBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.ResourceKey;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -40,7 +40,7 @@ public final class ModBlockEntities {
     );
 
     private static <T extends BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
-        return BuiltInRegistries.BLOCK_ENTITY_TYPE.register(ResourceKey.create(Registries.BLOCK_ENTITY_TYPE, Identifier.of("uncannyvoxel", name)), type);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.register(ResourceKey.create(Registries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath("uncannyvoxel", name)), type);
     }
 
     public static void init() {}

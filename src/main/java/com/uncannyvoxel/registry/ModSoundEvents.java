@@ -21,7 +21,7 @@ public final class ModSoundEvents {
     public static final SoundEvent MIMIC_VOICE = register("mimic_voice");
 
     private static SoundEvent register(String name) {
-        Identifier id = Identifier.of(MOD_ID, name);
+        Identifier id = Identifier.fromNamespaceAndPath(MOD_ID, name);
         return BuiltInRegistries.SOUND_EVENT.register(id, SoundEvent.createVariableRangeEvent(id));
     }
 

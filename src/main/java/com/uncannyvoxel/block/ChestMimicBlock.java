@@ -45,7 +45,7 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide()) {
-            return InteractionResult.sidedSuccess(level);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         if (!com.uncannyvoxel.config.HorrorConfig.get().chestMimicEnabled) {
@@ -55,7 +55,7 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ChestMimicBlockEntity mimic) {
             mimic.triggerMimic(player);
-            return InteractionResult.sidedSuccess(level);
+            return InteractionResult.sidedSuccess(level.isClientSide());
         }
 
         return InteractionResult.PASS;

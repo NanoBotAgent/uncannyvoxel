@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class UncannyPortalGameTest {
 
-    @GameTest(template = "fabric-gametest-api-v1:empty")
+    @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void portalFrameValidates(GameTestHelper helper) {
         BlockPos center = new BlockPos(1, 2, 1);
 
@@ -31,7 +31,7 @@ public class UncannyPortalGameTest {
         helper.succeed();
     }
 
-    @GameTest(template = "fabric-gametest-api-v1:empty")
+    @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void portalInvalidFrameFails(GameTestHelper helper) {
         BlockPos center = new BlockPos(1, 2, 1);
 

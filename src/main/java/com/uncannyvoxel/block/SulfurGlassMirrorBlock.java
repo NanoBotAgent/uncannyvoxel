@@ -52,7 +52,7 @@ public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world
             ItemStack stack = player.getItemInHand(hand);
             if (stack.is(com.uncannyvoxel.registry.ModItems.DESATURATED_EYE)) {
                 com.uncannyvoxel.portal.PortalController.tryActivate((ServerLevel) level, pos, (net.minecraft.server.level.ServerPlayer) player);
-                return InteractionResult.sidedSuccess(level);
+                return InteractionResult.sidedSuccess(level.isClientSide());
             }
         }
         return InteractionResult.PASS;

@@ -34,7 +34,7 @@ public final class ModBlocks {
     );
 
     private static Block register(String name, Block block) {
-        Identifier id = Identifier.of("uncannyvoxel", name);
+        Identifier id = Identifier.fromNamespaceAndPath("uncannyvoxel", name);
         BuiltInRegistries.BLOCK.register(id, block);
         ModItems.registerBlockItem(name, block);
         return block;

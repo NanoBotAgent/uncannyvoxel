@@ -25,7 +25,7 @@ import java.util.UUID;
 
 public class LumenScalpelItem extends Item {
 
-    private static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.of("uncannyvoxel", "lumen_scalpel_drain");
+    private static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath("uncannyvoxel", "lumen_scalpel_drain");
     private static final float MAX_HEALTH_DRAIN = 0.5f;
     private static final float SAFE_FLOOR = 0.5f;
 

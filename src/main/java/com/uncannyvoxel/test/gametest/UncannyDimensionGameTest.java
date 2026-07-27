@@ -8,7 +8,7 @@ import net.minecraft.server.level.ServerLevel;
 
 public class UncannyDimensionGameTest {
 
-    @GameTest(template = "fabric-gametest-api-v1:empty")
+    @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void substrateDimensionExists(GameTestHelper helper) {
         ServerLevel overworld = helper.getLevel();
         ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
@@ -17,7 +17,7 @@ public class UncannyDimensionGameTest {
         helper.succeed();
     }
 
-    @GameTest(template = "fabric-gametest-api-v1:empty")
+    @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void substrateChunkGenerationDoesNotCrash(GameTestHelper helper) {
         ServerLevel overworld = helper.getLevel();
         ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
