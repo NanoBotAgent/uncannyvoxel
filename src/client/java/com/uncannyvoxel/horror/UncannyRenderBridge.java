@@ -2,16 +2,16 @@ package com.uncannyvoxel.horror;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.shader.ShaderInstance;
+import com.mojang.blaze3d.shaders.Shader;
 import net.minecraft.client.Camera;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.Identifier;
 
 public final class UncannyRenderBridge {
 
-    private static ShaderInstance blinkShader;
-    private static ShaderInstance peripheralGlitchShader;
-    private static ShaderInstance depthOfFieldDreadShader;
+    private static Shader blinkShader;
+    private static Shader peripheralGlitchShader;
+    private static Shader depthOfFieldDreadShader;
     private static boolean shadersLoaded = false;
 
     private static float blinkIntensity = 0.0f;
