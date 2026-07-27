@@ -67,7 +67,7 @@ public final class UncannyRenderBridge {
     private static void playBlinkSound(Minecraft client) {
         if (client.player != null) {
             client.player.playSound(com.uncannyvoxel.registry.ModSoundEvents.BLINK_TRIGGER,
-                    HorrorConfig.get().horrorVolume, 1.0f);
+                    1.0f, 1.0f);
         }
     }
 
