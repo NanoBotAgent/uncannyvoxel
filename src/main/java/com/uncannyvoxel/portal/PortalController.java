@@ -98,14 +98,14 @@ public class PortalController {
     }
 
     private static void teleportToSubstrate(ServerPlayer player, ServerLevel level) {
-        ServerLevel substrateLevel = level.getServer().getLevel(ModDimensions.SUBSTRATE);
+        ServerLevel substrateLevel = level.getServer().getLevel(ModDimensions.SUBSTRATE_LEVEL);
         if (substrateLevel == null) {
             return;
         }
 
         BlockPos spawnPos = SubstrateSpawn.findSafeSpawn(substrateLevel, BlockPos.ZERO);
         player.teleportTo(substrateLevel, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5,
-                player.getYRot(), player.getXRot(), player.getYHeadRot());
+                player.getYRot(), player.getXRot());
     }
 
     private static boolean isDesaturatedEye(ItemStack stack) {

@@ -47,8 +47,8 @@ public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world
 
     @Override
     public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {
-            ItemStack stack = player.getItemInHand(hand);
+        if (!level.isClientSide()) {
+            ItemStack stack = player.getMainHandItem();
             if (stack.is(com.uncannyvoxel.registry.ModItems.DESATURATED_EYE)) {
                 com.uncannyvoxel.portal.PortalController.tryActivate((ServerLevel) level, pos, (net.minecraft.server.level.ServerPlayer) player);
                 return InteractionResult.SUCCESS;

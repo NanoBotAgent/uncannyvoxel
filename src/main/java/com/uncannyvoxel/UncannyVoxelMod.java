@@ -26,6 +26,6 @@ public class UncannyVoxelMod implements ModInitializer {
         ModEntities.init();
         ModStructures.init();
 
-        LOGGER.info("The Uncanny Voxel initialized. Substrate dimension: {}", ModDimensions.SUBSTRATE.identifier());
+        LOGGER.info("The Uncanny Voxel initialized. Substrate dimension: {}", ModDimensions.SUBSTRATE_LEVEL.identifier());
     }
 }

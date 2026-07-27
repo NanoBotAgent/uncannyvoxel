@@ -34,7 +34,6 @@ public class LumenScalpelItem extends Item {
 
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
-        @SuppressWarnings("unused") Level unused = level;
         if (entity instanceof Player player) {
             if (slot == EquipmentSlot.MAINHAND && stack.getDamageValue() < stack.getMaxDamage()) {
                 applyEffect(player);

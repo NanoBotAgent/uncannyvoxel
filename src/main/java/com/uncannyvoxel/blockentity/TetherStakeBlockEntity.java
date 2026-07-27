@@ -2,7 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -91,7 +92,7 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
+    protected void saveAdditional(ValueOutput tag) {
         super.saveAdditional(tag);
         if (ownerUuid != null) {
             tag.putUUID("owner", ownerUuid);
@@ -102,11 +103,11 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag) {
+    protected void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        ownerUuid = (tag.hasUUID("owner") ? tag.getUUID("owner") : null);
-        radius = tag.getInt("radius");
-        active = tag.getBoolean("active");
-        cooldown = tag.getInt("cooldown");
+        ownerUuid = tag.getUUIDOr("owner").orElse(null);
+        radius = tag.getIntOr("radius").orElse(0);
+        active = tag.getBooleanOr("active").orElse(false);
+        cooldown = tag.getIntOr("cooldown").orElse(0);
     }
 }
