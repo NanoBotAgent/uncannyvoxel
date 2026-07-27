@@ -5,7 +5,6 @@ import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -47,12 +46,12 @@ public class SulfurGlassMirrorBlock extends Block implements net.minecraft.world
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (!level.isClientSide() && hand == InteractionHand.MAIN_HAND) {
             ItemStack stack = player.getItemInHand(hand);
             if (stack.is(com.uncannyvoxel.registry.ModItems.DESATURATED_EYE)) {
                 com.uncannyvoxel.portal.PortalController.tryActivate((ServerLevel) level, pos, (net.minecraft.server.level.ServerPlayer) player);
-                return InteractionResult.sidedSuccess(level.isClientSide());
+                return InteractionResult.SUCCESS;
             }
         }
         return InteractionResult.PASS;

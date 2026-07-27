@@ -10,7 +10,7 @@ public final class ModDimensions {
     public static final String MOD_ID = "uncannyvoxel";
 
     public static final ResourceKey<Level> SUBSTRATE =
-            ResourceKey.create(Registries.DIMENSION, Identifier.fromNamespaceAndPath(MOD_ID, "substrate"));
+            ResourceKey.create(Registries.LEVEL_STEM, Identifier.fromNamespaceAndPath(MOD_ID, "substrate"));
 
     private ModDimensions() {}
 

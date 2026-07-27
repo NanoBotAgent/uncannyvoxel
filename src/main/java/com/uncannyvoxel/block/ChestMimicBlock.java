@@ -3,7 +3,6 @@ package com.uncannyvoxel.block;
 import com.uncannyvoxel.blockentity.ChestMimicBlockEntity;
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
@@ -43,9 +42,9 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
     }
 
     @Override
-    public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+    public InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         if (level.isClientSide()) {
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
 
         if (!com.uncannyvoxel.config.HorrorConfig.get().chestMimicEnabled) {
@@ -55,7 +54,7 @@ public class ChestMimicBlock extends Block implements net.minecraft.world.level.
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof ChestMimicBlockEntity mimic) {
             mimic.triggerMimic(player);
-            return InteractionResult.sidedSuccess(level.isClientSide());
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;

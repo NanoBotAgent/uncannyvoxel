@@ -18,7 +18,6 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
 
 import java.util.UUID;
@@ -30,11 +29,11 @@ public class LumenScalpelItem extends Item {
     private static final float SAFE_FLOOR = 0.5f;
 
     public LumenScalpelItem(Properties properties) {
-        super(properties.durability(100));
+        super(properties);
     }
 
     @Override
-    public void inventoryTick(ItemStack stack, Level level, Entity entity, EquipmentSlot slot) {
+    public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, EquipmentSlot slot) {
         @SuppressWarnings("unused") Level unused = level;
         if (entity instanceof Player player) {
             if (slot == EquipmentSlot.MAINHAND && stack.getDamageValue() < stack.getMaxDamage()) {

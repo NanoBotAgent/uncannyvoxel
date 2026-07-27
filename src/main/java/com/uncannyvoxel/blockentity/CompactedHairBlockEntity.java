@@ -1,11 +1,10 @@
 package com.uncannyvoxel.blockentity;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
 
 public class CompactedHairBlockEntity extends BlockEntity {
 
@@ -27,14 +26,14 @@ public class CompactedHairBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
-        output.putInt("pulsePhase", pulsePhase);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
+        tag.putInt("pulsePhase", pulsePhase);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        pulsePhase = input.getIntOr("pulsePhase").orElse(0);
+    protected void loadAdditional(CompoundTag tag) {
+        super.loadAdditional(tag);
+        pulsePhase = tag.getInt("pulsePhase");
     }
 }

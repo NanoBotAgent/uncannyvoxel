@@ -4,6 +4,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 
 public final class ModSoundEvents {
 
@@ -22,7 +23,7 @@ public final class ModSoundEvents {
 
     private static SoundEvent register(String name) {
         Identifier id = Identifier.fromNamespaceAndPath(MOD_ID, name);
-        return BuiltInRegistries.SOUND_EVENT.register(id, SoundEvent.createVariableRangeEvent(id));
+        return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
     public static void init() {}

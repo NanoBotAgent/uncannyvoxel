@@ -49,7 +49,7 @@ public final class SubstrateSpawn {
     private static int findSurfaceY(ServerLevel level, BlockPos pos) {
         int y = level.getMaxY() - 1;
         while (y > level.getMinY()) {
-            BlockPos testPos = pos.withY(y);
+            BlockPos testPos = new BlockPos(pos.getX(), y, pos.getZ());
             if (level.getBlockState(testPos).isSolidRender()) {
                 return y;
             }
