@@ -2,17 +2,11 @@ package com.uncannyvoxel.horror;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import com.mojang.blaze3d.shaders.Shader;
 import net.minecraft.client.Camera;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.Identifier;
 
 public final class UncannyRenderBridge {
-
-    private static Shader blinkShader;
-    private static Shader peripheralGlitchShader;
-    private static Shader depthOfFieldDreadShader;
-    private static boolean shadersLoaded = false;
 
     private static float blinkIntensity = 0.0f;
     private static float peripheralIntensity = 0.0f;
@@ -23,12 +17,6 @@ public final class UncannyRenderBridge {
     private static final Identifier DREAD_SHADER = Identifier.fromNamespaceAndPath("uncannyvoxel", "depth_of_field_dread");
 
     public static void loadShaders(Minecraft client) {
-        if (shadersLoaded) return;
-
-        try {
-            shadersLoaded = true;
-        } catch (Exception e) {
-        }
     }
 
     public static void triggerBlink(Minecraft client) {
@@ -84,9 +72,5 @@ public final class UncannyRenderBridge {
     }
 
     public static void cleanup() {
-        blinkShader = null;
-        peripheralGlitchShader = null;
-        depthOfFieldDreadShader = null;
-        shadersLoaded = false;
     }
 }
