@@ -47,15 +47,15 @@ public final class SubstrateSpawn {
     }
 
     private static int findSurfaceY(ServerLevel level, BlockPos pos) {
-        int y = level.getMaxBuildHeight() - 1;
-        while (y > level.getMinBuildHeight()) {
+        int y = level.dimensionType().maxY() - 1;
+        while (y > level.dimensionType().minY()) {
             BlockPos testPos = new BlockPos(pos.getX(), y, pos.getZ());
             if (level.getBlockState(testPos).isSolidRender(level, testPos)) {
                 return y;
             }
             y--;
         }
-        return level.getMinBuildHeight() + 10;
+        return level.dimensionType().minY() + 10;
     }
 
     private static void createPlatform(ServerLevel level, BlockPos origin) {
