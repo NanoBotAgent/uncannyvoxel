@@ -11,7 +11,7 @@ public class UncannyDimensionGameTest {
     @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void substrateDimensionExists(GameTestHelper helper) {
         ServerLevel overworld = helper.getLevel();
-        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
+        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE_LEVEL);
 
         helper.assertTrue(substrate != null, "Substrate dimension should be registered and loadable");
         helper.succeed();
@@ -20,7 +20,7 @@ public class UncannyDimensionGameTest {
     @GameTest(structure = "fabric-gametest-api-v1:empty")
     public void substrateChunkGenerationDoesNotCrash(GameTestHelper helper) {
         ServerLevel overworld = helper.getLevel();
-        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE);
+        ServerLevel substrate = overworld.getServer().getLevel(ModDimensions.SUBSTRATE_LEVEL);
 
         if (substrate == null) {
             helper.fail("Substrate dimension not loaded");

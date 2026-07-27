@@ -40,7 +40,7 @@ public class InfrasonicDroneSound {
         float dread = 0f;
         BlockPos pos = player.blockPosition();
         if (player.level().getMaxLocalRawBrightness(pos) < 7) dread += 0.3f;
-        if (player.level().dimension() == com.uncannyvoxel.registry.ModDimensions.SUBSTRATE) dread += 0.5f;
+        if (player.level().dimension() == com.uncannyvoxel.registry.ModDimensions.SUBSTRATE_LEVEL) dread += 0.5f;
         var state = player.level().getBlockState(pos);
         if (state.is(com.uncannyvoxel.registry.ModTags.SULFUR_GEYSERS)) dread += 0.3f;
         return Math.min(dread, 1f);

@@ -95,7 +95,7 @@ public class TetherStakeBlockEntity extends BlockEntity {
     protected void saveAdditional(ValueOutput tag) {
         super.saveAdditional(tag);
         if (ownerUuid != null) {
-            tag.putUUID("owner", ownerUuid);
+            tag.putLong("ownerMost", ownerUuid.getMostSignificantBits()); tag.putLong("ownerLeast", ownerUuid.getLeastSignificantBits());
         }
         tag.putInt("radius", radius);
         tag.putBoolean("active", active);
@@ -105,9 +105,9 @@ public class TetherStakeBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        ownerUuid = tag.getUUIDOr("owner").orElse(null);
-        radius = tag.getIntOr("radius").orElse(0);
-        active = tag.getBooleanOr("active").orElse(false);
-        cooldown = tag.getIntOr("cooldown").orElse(0);
+        long most = tag.getLongOr("ownerMost", 0L); long least = tag.getLongOr("ownerLeast", 0L); if (most != 0 && least != 0) ownerUuid = new java.util.UUID(most, least);
+        radius = tag.getIntOr("radius", 0);
+        active = tag.getBooleanOr("active", false);
+        cooldown = tag.getIntOr("cooldown", 0);
     }
 }

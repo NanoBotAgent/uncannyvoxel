@@ -8,7 +8,6 @@ import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
@@ -41,41 +40,6 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     public int getContainerSize() {
         return 27;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return items.stream().allMatch(ItemStack::isEmpty);
-    }
-
-    @Override
-    public ItemStack getItem(int slot) {
-        return items.get(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(int slot, int amount) {
-        return Container.removeItem(items, slot, amount);
-    }
-
-    @Override
-    public ItemStack removeItemNoUpdate(int slot) {
-        return Container.takeItem(items, slot);
-    }
-
-    @Override
-    public void setItem(int slot, ItemStack stack) {
-        items.set(slot, stack);
-    }
-
-    @Override
-    public boolean stillValid(Player player) {
-        return Container.stillValidBlockEntity(this, player);
-    }
-
-    @Override
-    public void clearContent() {
-        items.clear();
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, ChestMimicBlockEntity entity) {
@@ -123,7 +87,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     protected void loadAdditional(ValueInput tag) {
         super.loadAdditional(tag);
-        mimicCooldown = tag.getIntOr("mimicCooldown").orElse(0);
-        mimicTriggered = tag.getBooleanOr("mimicTriggered").orElse(false);
+        mimicCooldown = tag.getIntOr("mimicCooldown", 0);
+        mimicTriggered = tag.getBooleanOr("mimicTriggered", false);
     }
 }
