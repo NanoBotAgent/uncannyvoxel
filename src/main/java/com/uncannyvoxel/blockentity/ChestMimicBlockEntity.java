@@ -2,7 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ValueInput;
+import net.minecraft.nbt.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -11,6 +12,7 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.core.NonNullList;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -65,12 +67,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    public void setItems(net.minecraft.world.item.ItemStack[] stacks) {
-        createInventory().setItems(stacks);
-    }
-
-    @Override
-    public void setItems(java.util.List<net.minecraft.world.item.ItemStack> stacks) {
+    public void setItems(NonNullList<ItemStack> stacks) {
         createInventory().setItems(stacks);
     }
 
@@ -120,16 +117,16 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     }
 
     @Override
-    protected void saveAdditional(CompoundTag tag) {
-        super.saveAdditional(tag);
-        tag.putInt("mimicCooldown", mimicCooldown);
-        tag.putBoolean("mimicTriggered", mimicTriggered);
+    protected void saveAdditional(ValueOutput output) {
+        super.saveAdditional(output);
+        output.putInt("mimicCooldown", mimicCooldown);
+        output.putBoolean("mimicTriggered", mimicTriggered);
     }
 
     @Override
-    protected void loadAdditional(CompoundTag tag) {
-        super.loadAdditional(tag);
-        mimicCooldown = tag.getInt("mimicCooldown");
-        mimicTriggered = tag.getBoolean("mimicTriggered");
+    protected void loadAdditional(ValueInput input) {
+        super.loadAdditional(input);
+        mimicCooldown = input.getIntOr("mimicCooldown").orElse(0);
+        mimicTriggered = input.getBooleanOr("mimicTriggered").orElse(false);
     }
 }
