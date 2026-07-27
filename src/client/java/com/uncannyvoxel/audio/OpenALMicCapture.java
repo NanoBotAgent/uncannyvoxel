@@ -2,6 +2,7 @@ package com.uncannyvoxel.audio;
 
 import org.lwjgl.openal.AL10;
 import org.lwjgl.openal.ALC10;
+import org.lwjgl.openal.ALC11;
 import org.lwjgl.openal.ALCCapabilities;
 import org.lwjgl.openal.ALCapabilities;
 
@@ -26,7 +27,7 @@ public class OpenALMicCapture implements MicCapture {
     public void start() {
         if (running) return;
 
-        String defaultDevice = ALC10.alcGetString(0, ALC10.ALC_CAPTURE_DEVICE_SPECIFIER);
+        String defaultDevice = ALC10.alcGetString(0, ALC11.ALC_CAPTURE_DEVICE_SPECIFIER);
         device = ALC10.alcCaptureOpenDevice(defaultDevice, sampleRate, format, captureBufferSize);
         if (device == 0) {
             running = false;

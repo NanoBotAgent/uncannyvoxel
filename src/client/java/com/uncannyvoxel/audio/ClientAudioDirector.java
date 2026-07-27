@@ -37,7 +37,7 @@ public final class ClientAudioDirector {
             return;
         }
 
-        if (!infrasonicActive && client.level.random.nextFloat() < 0.0001f) {
+        if (!infrasonicActive && client.level.getRandom().nextFloat() < 0.0001f) {
             startInfrasonic(client);
         }
 

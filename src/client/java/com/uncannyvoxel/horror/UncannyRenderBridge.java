@@ -3,7 +3,7 @@ package com.uncannyvoxel.horror;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.ShaderInstance;
-import net.minecraft.client.Camera;
+import net.minecraft.client.renderer.Camera;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.resources.Identifier;
 

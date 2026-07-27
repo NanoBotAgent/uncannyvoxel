@@ -48,7 +48,7 @@ public class BinauralWhisperController {
         if (volume <= 0) return;
 
         Minecraft.getInstance().getSoundManager().play(
-            net.minecraft.client.sounds.SimpleSoundInstance.forUI(
+            net.minecraft.client.resources.sounds.SimpleSoundInstance.forUI(
                 com.uncannyvoxel.registry.ModSoundEvents.BINAURAL_WHISPER,
                 0.8f + RANDOM.nextFloat() * 0.4f,
                 volume
