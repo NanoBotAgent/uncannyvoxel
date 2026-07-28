@@ -1,8 +1,8 @@
 package com.uncannyvoxel.blockentity;
 
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -35,6 +35,6 @@ public class CompactedHairBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        pulsePhase = input.getIntOr("pulsePhase").orElse(0);
+        pulsePhase = input.getIntOr("pulsePhase", 0);
     }
 }

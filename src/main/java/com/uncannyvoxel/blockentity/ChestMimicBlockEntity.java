@@ -3,8 +3,8 @@ package com.uncannyvoxel.blockentity;
 import com.uncannyvoxel.registry.ModBlockEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.NonNullList;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
@@ -87,7 +87,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        mimicCooldown = input.getIntOr("mimicCooldown").orElse(0);
-        mimicTriggered = input.getBooleanOr("mimicTriggered").orElse(false);
+        mimicCooldown = input.getIntOr("mimicCooldown", 0);
+        mimicTriggered = input.getBooleanOr("mimicTriggered", false);
     }
 }

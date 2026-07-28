@@ -2,8 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -106,11 +106,11 @@ public class TetherStakeBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        long most = input.getLongOr("ownerMost").orElse(0L);
-        long least = input.getLongOr("ownerLeast").orElse(0L);
+        long most = input.getLongOr("ownerMost", 0L);
+        long least = input.getLongOr("ownerLeast", 0L);
         if (most != 0 && least != 0) ownerUuid = new UUID(most, least);
-        radius = input.getIntOr("radius").orElse(5);
-        active = input.getBooleanOr("active").orElse(false);
-        cooldown = input.getIntOr("cooldown").orElse(0);
+        radius = input.getIntOr("radius", 5);
+        active = input.getBooleanOr("active", false);
+        cooldown = input.getIntOr("cooldown", 0);
     }
 }

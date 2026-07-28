@@ -2,8 +2,8 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.VantablackChunkManager;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,8 +27,8 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        portalActive = input.getBooleanOr("portalActive").orElse(false);
-        activationCooldown = input.getIntOr("activationCooldown").orElse(0);
+        portalActive = input.getBooleanOr("portalActive", false);
+        activationCooldown = input.getIntOr("activationCooldown", 0);
     }
 
     @Override
