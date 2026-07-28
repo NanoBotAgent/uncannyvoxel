@@ -1,6 +1,7 @@
 plugins {
     id 'net.fabricmc.fabric-loom' version '1.16.2'
     id 'java'
+    id 'maven-publish'
 }
 
 version = project.mod_version
@@ -22,28 +23,10 @@ loom {
     }
 }
 
-sourceSets {
-    client {
-        compileClasspath += sourceSets.main.output
-    }
-    test {
-        compileClasspath += sourceSets.main.output
-        runtimeClasspath += sourceSets.main.output
-    }
-}
-
 dependencies {
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
     implementation "net.fabricmc:fabric-loader:${project.loader_version}"
     implementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-
-    testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testImplementation 'org.mockito:mockito-core:5.11.0'
-    testImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_api_version}"
-}
-
-test {
-    useJUnitPlatform()
 }
 
 processResources {
@@ -73,18 +56,13 @@ jar {
     }
 }
 
-task validateResources {
-    doLast {
-        def jsonFiles = fileTree('src/main/resources').include('**/*.json')
-        jsonFiles.each { file ->
-            def content = file.text
-            try {
-                def json = new groovy.json.JsonSlurper().parseText(content)
-                println "Validated: ${file.path}"
-            } catch (Exception e) {
-                throw new GradleException("Invalid JSON in ${file.path}: ${e.message}")
-            }
+publishing {
+    publications {
+        create("mavenJava", MavenPublication) {
+            from components.java
         }
-        println 'All JSON resources are valid'
+    }
+
+    repositories {
     }
 }
