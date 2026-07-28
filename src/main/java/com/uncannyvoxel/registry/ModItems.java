@@ -5,7 +5,7 @@ import com.uncannyvoxel.item.LumenScalpelItem;
 import com.uncannyvoxel.item.TetherStakeItem;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -19,14 +19,14 @@ public final class ModItems {
     public static final Item TETHER_STAKE = register("tether_stake",
             TetherStakeItem::new, new Item.Properties().stacksTo(16));
 
-    public static void registerBlockItem(String name, Block block, ResourceLocation blockId) {
-        ResourceLocation itemId = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
+    public static void registerBlockItem(String name, Block block, Identifier blockId) {
+        Identifier itemId = Identifier.fromNamespaceAndPath("uncannyvoxel", name);
         Item item = new BlockItem(block, new Item.Properties());
         Registry.register(BuiltInRegistries.ITEM, itemId, item);
     }
 
     private static Item register(String name, java.util.function.Function<Item.Properties, ? extends Item> factory, Item.Properties props) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
+        Identifier id = Identifier.fromNamespaceAndPath("uncannyvoxel", name);
         Item item = factory.apply(props);
         Registry.register(BuiltInRegistries.ITEM, id, item);
         return item;

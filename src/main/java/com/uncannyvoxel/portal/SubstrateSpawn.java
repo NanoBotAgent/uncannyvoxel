@@ -34,7 +34,7 @@ public final class SubstrateSpawn {
 
     private static boolean isSafeSpawn(ServerLevel level, BlockPos pos) {
         BlockPos below = pos.below();
-        if (!level.getBlockState(below).isSolidRender(level, below)) {
+        if (!level.getBlockState(below).isSolidRender()) {
             return false;
         }
         if (!level.getBlockState(pos).isAir()) {
@@ -50,7 +50,7 @@ public final class SubstrateSpawn {
         int y = level.getMinY() + level.getHeight() - 1;
         while (y > level.getMinY()) {
             BlockPos testPos = new BlockPos(pos.getX(), y, pos.getZ());
-            if (level.getBlockState(testPos).isSolidRender(level, testPos)) {
+            if (level.getBlockState(testPos).isSolidRender()) {
                 return y;
             }
             y--;

@@ -3,7 +3,7 @@ package com.uncannyvoxel.item;
 import com.uncannyvoxel.config.HorrorConfig;
 import com.uncannyvoxel.registry.ModSoundEvents;
 import net.minecraft.core.BlockPos;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -24,7 +24,7 @@ import java.util.UUID;
 
 public class LumenScalpelItem extends Item {
 
-    private static final ResourceLocation MAX_HEALTH_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "lumen_scalpel_drain");
+    private static final Identifier MAX_HEALTH_MODIFIER_ID = Identifier.fromNamespaceAndPath("uncannyvoxel", "lumen_scalpel_drain");
     private static final float MAX_HEALTH_DRAIN = 0.5f;
     private static final float SAFE_FLOOR = 0.5f;
 

@@ -2,7 +2,7 @@ package com.uncannyvoxel.registry;
 
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 
 public final class ModSoundEvents {
@@ -21,7 +21,7 @@ public final class ModSoundEvents {
     public static final SoundEvent MIMIC_VOICE = register("mimic_voice");
 
     private static SoundEvent register(String name) {
-        ResourceLocation id = ResourceLocation.fromNamespaceAndPath(MOD_ID, name);
+        Identifier id = Identifier.fromNamespaceAndPath(MOD_ID, name);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 
