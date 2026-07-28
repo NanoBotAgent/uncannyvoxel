@@ -2,8 +2,7 @@ package com.uncannyvoxel.blockentity;
 
 import com.uncannyvoxel.horror.DreadModel;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.ValueInput;
-import net.minecraft.nbt.ValueOutput;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -92,25 +91,25 @@ public class TetherStakeBlockEntity extends BlockEntity {
     }
 
     @Override
-    protected void saveAdditional(ValueOutput output) {
-        super.saveAdditional(output);
+    protected void saveAdditional(CompoundTag tag) {
+        super.saveAdditional(tag);
         if (ownerUuid != null) {
-            output.putLong("ownerMost", ownerUuid.getMostSignificantBits());
-            output.putLong("ownerLeast", ownerUuid.getLeastSignificantBits());
+            tag.putLong("ownerMost", ownerUuid.getMostSignificantBits());
+            tag.putLong("ownerLeast", ownerUuid.getLeastSignificantBits());
         }
-        output.putInt("radius", radius);
-        output.putBoolean("active", active);
-        output.putInt("cooldown", cooldown);
+        tag.putInt("radius", radius);
+        tag.putBoolean("active", active);
+        tag.putInt("cooldown", cooldown);
     }
 
     @Override
-    protected void loadAdditional(ValueInput input) {
-        super.loadAdditional(input);
-        long most = input.getLongOr("ownerMost", 0);
-        long least = input.getLongOr("ownerLeast", 0);
+    protected void loadAdditional(CompoundTag tag) {
+        super.loadAdditional(tag);
+        long most = tag.getLong("ownerMost");
+        long least = tag.getLong("ownerLeast");
         if (most != 0 && least != 0) ownerUuid = new UUID(most, least);
-        radius = input.getIntOr("radius", 5);
-        active = input.getBooleanOr("active", false);
-        cooldown = input.getIntOr("cooldown", 0);
+        radius = tag.getInt("radius");
+        active = tag.getBoolean("active");
+        cooldown = tag.getInt("cooldown");
     }
 }
