@@ -41,6 +41,13 @@ jobs:
           path: build.log
           retention-days: 7
 
+      - name: Upload mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: mod-jar
+          path: build/libs/*.jar
+          retention-days: 7
+
       - name: Validate resources (check JSON syntax)
         run: |
           find src/main/resources -name '*.json' -exec echo 'Validating {}' \; -exec jq empty {} \;
@@ -60,7 +67,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: build-log
+          name: mod-jar
           path: build/libs
 
       - name: Run Fabric GameTest via mc-runtime-test
@@ -72,8 +79,9 @@ jobs:
           mc-runtime-test: 'fabric'
           java: '25'
           fabric-api: '0.156.0+26.2'
-          fabric-gametest-api: '4.0.13'
+          fabric-gametest-api: '4.0.21'
           headlessmc-command: '/test runall'
+          jvm-args: '-Dfabric-api.gametest'
 
   ci-verification-gate:
     name: CI Verification Gate
