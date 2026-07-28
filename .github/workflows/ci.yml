@@ -31,7 +31,7 @@ jobs:
       - name: Build with Gradle
         run: |
           set -o pipefail
-          ./gradlew clean build --no-daemon --stacktrace 2>&1 | tee build.log
+          ./gradlew clean build --no-daemon --stacktrace --info 2>&1 | tee build.log
 
       - name: Upload build log
         if: always()
@@ -71,7 +71,7 @@ jobs:
           regex: '.*fabric.*'
           mc-runtime-test: 'fabric'
           java: '25'
-          fabric-api: '0.155.2'
+          fabric-api: '0.156.0+26.2'
           fabric-gametest-api: '4.0.13'
           headlessmc-command: '/test runall'
 
