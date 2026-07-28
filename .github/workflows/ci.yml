@@ -28,19 +28,6 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Test compilation only
-        run: |
-          set -o pipefail
-          ./gradlew compileJava compileClientJava --no-daemon --stacktrace --info 2>&1 | tee compile.log
-
-      - name: Upload compile log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: compile-log
-          path: compile.log
-          retention-days: 7
-
       - name: Build with Gradle
         run: |
           set -o pipefail
@@ -52,19 +39,6 @@ jobs:
         with:
           name: build-log
           path: build.log
-          retention-days: 7
-
-      - name: Run unit tests
-        run: |
-          set -o pipefail
-          ./gradlew test --no-daemon --stacktrace --info 2>&1 | tee test.log
-
-      - name: Upload test log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-log
-          path: test.log
           retention-days: 7
 
       - name: Validate resources (check JSON syntax)
@@ -86,7 +60,7 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: uncannyvoxel-build
+          name: build-log
           path: build/libs
 
       - name: Run Fabric GameTest via mc-runtime-test
