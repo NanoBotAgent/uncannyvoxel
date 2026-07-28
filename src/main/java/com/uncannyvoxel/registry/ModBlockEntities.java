@@ -5,10 +5,10 @@ import com.uncannyvoxel.blockentity.ChestMimicBlockEntity;
 import com.uncannyvoxel.blockentity.TetherStakeBlockEntity;
 import com.uncannyvoxel.blockentity.CompactedHairBlockEntity;
 import com.uncannyvoxel.blockentity.RustedGrateBlockEntity;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -41,7 +41,7 @@ public final class ModBlockEntities {
     );
 
     private static <T extends net.minecraft.world.level.block.entity.BlockEntity> BlockEntityType<T> register(String name, BlockEntityType<T> type) {
-        return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Identifier.fromNamespaceAndPath("uncannyvoxel", name), type);
+        return BuiltInRegistries.BLOCK_ENTITY_TYPE.register(ResourceKey.create(Registries.BLOCK_ENTITY_TYPE, ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name)), type);
     }
 
     public static void init() {}

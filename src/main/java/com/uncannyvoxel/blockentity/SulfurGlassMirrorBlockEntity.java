@@ -27,8 +27,8 @@ public class SulfurGlassMirrorBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        portalActive = input.getBooleanOr("portalActive", false);
-        activationCooldown = input.getIntOr("activationCooldown", 0);
+        portalActive = input.getBooleanOr("portalActive").orElse(false);
+        activationCooldown = input.getIntOr("activationCooldown").orElse(0);
     }
 
     @Override

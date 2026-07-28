@@ -4,7 +4,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Camera;
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public final class UncannyRenderBridge {
 
@@ -12,9 +12,9 @@ public final class UncannyRenderBridge {
     private static float peripheralIntensity = 0.0f;
     private static float dreadIntensity = 0.0f;
 
-    private static final Identifier BLINK_SHADER = Identifier.fromNamespaceAndPath("uncannyvoxel", "blink");
-    private static final Identifier PERIPHERAL_SHADER = Identifier.fromNamespaceAndPath("uncannyvoxel", "peripheral_glitch");
-    private static final Identifier DREAD_SHADER = Identifier.fromNamespaceAndPath("uncannyvoxel", "depth_of_field_dread");
+    private static final ResourceLocation BLINK_SHADER = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "blink");
+    private static final ResourceLocation PERIPHERAL_SHADER = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "peripheral_glitch");
+    private static final ResourceLocation DREAD_SHADER = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", "depth_of_field_dread");
 
     public static void loadShaders(Minecraft client) {
     }

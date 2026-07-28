@@ -35,6 +35,6 @@ public class RustedGrateBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        humLevel = input.getIntOr("humLevel", 0);
+        humLevel = input.getIntOr("humLevel").orElse(0);
     }
 }

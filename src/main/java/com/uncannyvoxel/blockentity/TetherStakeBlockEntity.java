@@ -106,11 +106,11 @@ public class TetherStakeBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        long most = input.getLongOr("ownerMost", 0);
-        long least = input.getLongOr("ownerLeast", 0);
+        long most = input.getLongOr("ownerMost").orElse(0L);
+        long least = input.getLongOr("ownerLeast").orElse(0L);
         if (most != 0 && least != 0) ownerUuid = new UUID(most, least);
-        radius = input.getIntOr("radius", 5);
-        active = input.getBooleanOr("active", false);
-        cooldown = input.getIntOr("cooldown", 0);
+        radius = input.getIntOr("radius").orElse(5);
+        active = input.getBooleanOr("active").orElse(false);
+        cooldown = input.getIntOr("cooldown").orElse(0);
     }
 }

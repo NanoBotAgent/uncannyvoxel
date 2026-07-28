@@ -104,7 +104,7 @@ public class PortalController {
         }
 
         BlockPos spawnPos = SubstrateSpawn.findSafeSpawn(substrateLevel, BlockPos.ZERO);
-        player.teleportTo(substrateLevel, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5, player.getYRot(), player.getXRot());
+        player.teleportTo(substrateLevel, spawnPos.getX() + 0.5, spawnPos.getY() + 1, spawnPos.getZ() + 0.5, java.util.Set.of(), player.getYRot(), player.getXRot(), true);
     }
 
     private static boolean isDesaturatedEye(ItemStack stack) {

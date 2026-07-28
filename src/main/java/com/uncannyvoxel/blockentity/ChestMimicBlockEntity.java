@@ -87,7 +87,7 @@ public class ChestMimicBlockEntity extends RandomizableContainerBlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        mimicCooldown = input.getIntOr("mimicCooldown", 0);
-        mimicTriggered = input.getBooleanOr("mimicTriggered", false);
+        mimicCooldown = input.getIntOr("mimicCooldown").orElse(0);
+        mimicTriggered = input.getBooleanOr("mimicTriggered").orElse(false);
     }
 }

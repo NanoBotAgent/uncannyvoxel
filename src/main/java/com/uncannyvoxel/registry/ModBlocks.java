@@ -1,10 +1,9 @@
 package com.uncannyvoxel.registry;
 
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -37,9 +36,9 @@ public final class ModBlocks {
     );
 
     private static Block register(String name, Block block) {
-        Identifier id = Identifier.fromNamespaceAndPath("uncannyvoxel", name);
+        ResourceLocation id = ResourceLocation.fromNamespaceAndPath("uncannyvoxel", name);
         ResourceKey<Block> blockKey = ResourceKey.create(Registries.BLOCK, id);
-        Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
+        BuiltInRegistries.BLOCK.register(blockKey, block);
         ModItems.registerBlockItem(name, block, id);
         return block;
     }

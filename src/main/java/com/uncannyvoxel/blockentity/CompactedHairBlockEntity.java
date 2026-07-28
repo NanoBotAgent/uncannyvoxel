@@ -35,6 +35,6 @@ public class CompactedHairBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
-        pulsePhase = input.getIntOr("pulsePhase", 0);
+        pulsePhase = input.getIntOr("pulsePhase").orElse(0);
     }
 }
