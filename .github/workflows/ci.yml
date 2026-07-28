@@ -78,10 +78,9 @@ jobs:
           regex: '.*fabric.*'
           mc-runtime-test: 'fabric'
           java: '25'
-          fabric-api: '0.156.0+26.2'
-          fabric-gametest-api: '4.0.21'
-          headlessmc-command: '/test runall'
-          jvm-args: '-Dfabric-api.gametest'
+          fabric-api: '0.156.0'
+          fabric-gametest-api: '4.0.27+c010610fef'
+          headlessmc-command: '/test runall --jvm "-Dfabric-api.gametest"'
 
   ci-verification-gate:
     name: CI Verification Gate
